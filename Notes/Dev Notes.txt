@@ -1,0 +1,8 @@
+
+
+This is my thinking document.  Anytime you are thinking of something and not yet adding it, throw your notes/thoughts here.
+
+
+Client needs all system.out.println messages changed to JOptionPane.
+
+Both systems need accessors & mutators to replace direct internal access.
