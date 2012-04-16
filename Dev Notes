@@ -1,0 +1,33 @@
+
+Change Notes!
+
+
+Should I have the commander & intepreter creation occur inside the user generator, since users are where the commands are issued from, and the server doesn't necessarily have to handle that?
+
+This also means I could move the GameManager to that as well.
+
+Or even move the interpreter loading to the Commander class.  That might make the most sense then, Commander created by UserManager, and game manager & interpreters created by the Commander.
+
+
+Hmm, nope GameInterpreter will create the GameManager, my mistake.
+
+Alright!  So far things are going well!
+
+
+Excellent, I pretty much finished the skeletal layout of the Server and then some, now I am working on the matching Client system.
+
+
+Client requires at least 1 argument, 2 are optional.
+
+Arguments are Address, Port, and Debug.
+
+Modified server to while (!ss.isClosed()) for the connection loop.
+
+
+
+Making the system capable of hosting more than 2 players has three requirement changes to the system:
+
+1.  ArrayList of Players in Game
+2.  Enough tiles must be generated to support X many players (if we don't set a limit we have 64 tiles and 64 players, making scoring impossible)
+3.  We would need a dynamic approach to challenge multiple opponents from a list box, and a command that would accept that.
+
