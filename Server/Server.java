@@ -3,7 +3,7 @@
  * Server Class Listens for Connections, accepts Port Number
  *
  * @author Casey DeLorme
- * @version 04-16-2012
+ * @version 04-26-2012
  *
  */
 
@@ -18,7 +18,7 @@ public class Server implements Runnable {
 
 	/* Static */
 
-	private static final int PORT = 123;
+	private static final int PORT = 16789;
 
 	public static void main(String[] args) {
 
@@ -34,11 +34,6 @@ public class Server implements Runnable {
 
 			} catch (NumberFormatException nfe) {
 
-				// Close on invalid port
-				// invalid syntax to launch would be an uncommon mistake
-				// It means either the user accidentally added extra characters OR
-				// They meant to specify the port and had a typo
-				// We want to make sure they don't end up with a process they need to kill
 				System.out.println("Invalid port number provided, system will now shut down");
 				System.exit(0);
 
@@ -65,18 +60,24 @@ public class Server implements Runnable {
 		// Create Connection
 		try {
 
-			ss = new ServerSocket(aPort);
+			setServerSocket(new ServerSocket(aPort));
+
+			// Spit out local IP
+			System.out.println("Server Established on IP " + getServerSocket().getInetAddress().toString());
+
+			// Call init
+			init();
 
 		} catch (IOException ioe) {
 
-			// Report Error & Exit System (no ServerSocket == no Connections)
+			// Report failed connection
 			System.out.println("Unable to establish connection on port " + aPort + ", system will not exit.");
-			System.exit(0);
+
+			// Exit
+			//System.exit(0);
+			// Not needed if we put init() inside the other?
 
 		}
-
-		// Call init
-		init();
 
 	}
 
@@ -98,11 +99,17 @@ public class Server implements Runnable {
 		// Listen for Connections indefinitely
 		while (!ss.isClosed()) {
 
+			// Output listening port
+			System.out.println("Server listening on port #" + getServerSocket().getLocalPort());
+
 			// Attempt to catch new connections & Add users
 			try {
 
 				// On accept, pass to addUser method!
-				um.addUser(ss.accept());
+				getUserManaer().addUser(getServerSocket().accept());
+
+				// System message about each new connection
+				System.out.println("New connection established.");
 
 			} catch (IOException ioe) {
 
@@ -118,8 +125,32 @@ public class Server implements Runnable {
 
 	/* Mutators */
 
+	private void setServerSocket(ServerSocket aServerSocket) {
+
+		ss = aServerSocket;
+
+	}
+
+	public void setUserManager(UserManager aUserManager) {
+
+		um = aUserManager;
+
+	}
+
 
 	/* Accessors */
+
+	public ServerSocket getServerSocket() {
+
+		return ss;
+
+	}
+
+	public UserManager getUserManaer() {
+
+		return um;
+
+	}
 
 
 }
