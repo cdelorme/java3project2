@@ -3,7 +3,7 @@
  * Connection object could be used to separate the connection from the Client GUI
  *
  * @author Casey DeLorme
- * @version 04-16-2012
+ * @version 04-26-2012
  *
  */
 
@@ -11,6 +11,7 @@
 // Imports
 import java.net.*;
 import java.io.*;
+import javax.swing.*;
 
 
 public class ClientConnection implements Runnable {
@@ -21,6 +22,7 @@ public class ClientConnection implements Runnable {
 
 	/* Properties */
 
+	private String username;
 	private Socket s;
 	// Input
 	// Output
@@ -28,8 +30,12 @@ public class ClientConnection implements Runnable {
 
 	/* Constructors */
 
-	public ClientConnection(String anAddress, int aPort) {
+	public ClientConnection() {
 
+		// Prepare the socket
+		setSocket(new Socket());
+
+/*
 		// Establish a connection
 		try {
 
@@ -48,11 +54,50 @@ public class ClientConnection implements Runnable {
 		}
 
 		// Request Username until Valid
+/**/
 
 	}
 
 
 	/* Custom Methods */
+
+	public boolean connectToServer(String aUsername, String anAddress, int aPort) {
+
+		boolean ret = true;
+
+		try {
+
+			getSocket().connect(new InetSocketAddress(anAddress, aPort), 10000);
+
+			//SocketAddress sockaddr = new InetSocketAddress(host, port);
+
+			//Socket sock = new Socket();
+			//sock.connect(sockaddr, 2000);
+
+			// Try setting the connection
+
+			// Establish IO Components
+
+
+			// Try setting the Username
+
+
+
+		} catch (UnknownHostException uhe) {
+
+			JOptionPane.showMessageDialog(null, "Host not Found.", "Connection Failed", JOptionPane.ERROR_MESSAGE);
+			ret = false;
+
+		} catch (IOException ioe) {
+
+			JOptionPane.showMessageDialog(null, "IO Exception Occurred.", "Connection Failed", JOptionPane.ERROR_MESSAGE);
+			ret = false;
+
+		}
+
+		return ret;
+
+	}
 
 	public void run() {
 
@@ -62,22 +107,40 @@ public class ClientConnection implements Runnable {
 
 		// Loop Listener
 		while (s.isConnected()) {
+
 			// Loop until connection has been closed
+			// This should be accepting input and passing it to the Receiver
+
+
 		}
 
-		// If Socket Closes End Application
+		// If Socket Closes End Application?
+		// May modify, on disconnect reload the ClientConnectionGUI to access again?
 
-	}
-
-	private void setUserName() {
 
 	}
 
 
 	/* Mutators */
 
+	private void setSocket(Socket aSocket) {
+		s = aSocket;
+	}
+
+	private void setUsername(String aUsername) {
+		username = aUsername;
+	}
+
 
 	/* Accessors */
+
+	private Socket getSocket() {
+		return s;
+	}
+
+	private String getUsername() {
+		return username;
+	}
 
 
 }

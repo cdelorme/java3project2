@@ -1,9 +1,9 @@
 /**
  *
- * Client for Game
+ * Client Loads Required Objects to Establish Connection
  *
  * @author Casey DeLorme
- * @version 04-16-2012
+ * @version 04-26-2012
  *
  */
 
@@ -15,66 +15,31 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-public class Client extends JFrame {
+public class Client {
 
 
 	/* Static */
 
-	public static final String ADDRESS = "10.0.1.20";
-	public static final int PORT = 123;
-	public static boolean debug = false;
-
 	public static void main(String[] args) {
 
-		// Accept Address
-		String address = ADDRESS;
-
-		if (args.length > 0) address = args[0];
-
-		// Accept Port
-		int port = PORT;
-
-		if (args.length > 1) {
-
-			try {
-
-				port = Integer.parseInt(args[1]);
-
-			} catch (NumberFormatException nfe) {
-
-				// Exit with Error Message - CONVERT TO JOptionPane!
-				System.out.println("Invalid Port Provided, system will now exit.");
-				System.exit(0);
-
-			}
-
-		}
-
-		// Set Debug on if Passed for Debug Menu
-		if ((args.length > 2) && (args[2].equals("debug"))) debug = true;
-
 		// Start Self
-		new Client(address, port);
+		new Client();
 
 	}
 
 
 	/* Properties */
 
-	private ClientConnection c;
+	private ClientConnectionGUI ccg;
+	private ClientConnectionMediator ccm;
+	private ClientConnection cc;
 
 
 	/* Constructors */
 
-	public Client(String anAddress, int aPort) {
+	public Client() {
 
-		// Load Connection
-		c = new ClientConnection(anAddress, aPort);
-
-		// Begin Connection Processing
-		new Thread(c).start();
-
-		// Initialize Display
+		// Begin!
 		init();
 
 	}
@@ -84,7 +49,41 @@ public class Client extends JFrame {
 
 	private void init() {
 
-		// Establish a basic GUI for the Chat Client
+		// Load Connection GUI
+		setCCG(new ClientConnectionGUI());
+
+		// Load Connection Mediator
+		setCCM(new ClientConnectionMediator(this));
+
+	}
+
+	public boolean connectToServer(String aUsername, String anAddress, int aPort) {
+
+		boolean ret = true;
+
+		// Try connection & Return results to CCM
+		setCC(new ClientConnection());
+
+		if (getCC().connectToServer(aUsername, anAddress, aPort)) {
+
+			// Begin threaded listener on Socket
+			new Thread(getCC()).start();
+
+		} else {
+
+			// Failed
+			setCC(null);
+			ret = false;
+
+		}
+
+		return ret;
+
+	}
+
+	public void startChatClient() {
+
+		// Load the Chat Client
 
 
 
@@ -93,8 +92,32 @@ public class Client extends JFrame {
 
 	/* Mutators */
 
+	private void setCCM(ClientConnectionMediator aCCM) {
+		ccm = aCCM;
+	}
+
+	private void setCCG(ClientConnectionGUI aCCG) {
+		ccg = aCCG;
+	}
+
+	private void setCC(ClientConnection aCC) {
+		cc = aCC;
+	}
+
 
 	/* Accessors */
+
+	private ClientConnectionMediator getCCM() {
+		return ccm;
+	}
+
+	public ClientConnectionGUI getCCG() {
+		return ccg;
+	}
+
+	private ClientConnection getCC() {
+		return cc;
+	}
 
 
 }
