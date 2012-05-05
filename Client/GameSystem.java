@@ -1,9 +1,9 @@
 /**
  *
- * Game Client Interface, unifies Game Systems
+ * Client Game Command Interpreter
  *
  * @author Casey DeLorme
- * @version 04-16-2012
+ * @version 05-05-2012
  *
  */
 
@@ -11,7 +11,7 @@
 // Imports
 
 
-public interface GameClient {
+public class GameSystem implements Interpreter {
 
 
 	/* Static */
@@ -19,8 +19,16 @@ public interface GameClient {
 
 	/* Properties */
 
+	//private Game gc;
+
 
 	/* Constructors */
+
+	public GameSystem() {
+
+		// Prep-work???
+
+	}
 
 
 	/* Custom Methods */

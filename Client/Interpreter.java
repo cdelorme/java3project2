@@ -1,17 +1,18 @@
 /**
  *
- * Client Game Command Interpreter
+ * Interpreter Interface
  *
  * @author Casey DeLorme
- * @version 04-16-2012
+ * @version 05-05-2012
  *
  */
 
 
 // Imports
+import java.util.Hashtable;
 
 
-public class GameClientInterpreter {
+public interface Interpreter {
 
 
 	/* Static */
@@ -19,19 +20,13 @@ public class GameClientInterpreter {
 
 	/* Properties */
 
-	private GameClient gc;
-
 
 	/* Constructors */
 
-	public GameClientInterpreter() {
-
-		// Prep-work???
-
-	}
-
 
 	/* Custom Methods */
+
+	public void interpret(Hashtable aCommand);
 
 
 	/* Mutators */

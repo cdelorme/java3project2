@@ -11,7 +11,7 @@
 // Imports
 
 
-public class ChatServerInterpreter implements Interpreter {
+public class ChatSystem implements Interpreter {
 
 
 	/* Static */
@@ -22,7 +22,7 @@ public class ChatServerInterpreter implements Interpreter {
 
 	/* Constructors */
 
-	public ChatServerInterpreter() {
+	public ChatSystem() {
 
 		// Setup Shop!
 		// probably need UserManager Reference

@@ -1,9 +1,9 @@
 /**
  *
- * DESCRIPTION
+ * Chat Client System
  *
- * @author
- * @version
+ * @author Casey DeLorme
+ * @version 05-05-2012
  *
  */
 
@@ -11,14 +11,10 @@
 // Imports
 
 
-public class SkeletonClass {
+public class ChatSystem implements Interpreter {
 
 
 	/* Static */
-
-	public static void main(String[] args) {
-		// Startup
-	}
 
 
 	/* Properties */
@@ -26,7 +22,7 @@ public class SkeletonClass {
 
 	/* Constructors */
 
-	public SkeletonClass() {
+	public ChatSystem() {
 		// Default Initialization
 	}
 

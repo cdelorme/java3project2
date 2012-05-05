@@ -3,7 +3,7 @@
  * Client Connection Utility
  *
  * @author Casey DeLorme
- * @version 04-26-2012
+ * @version 05-05-2012
  *
  */
 
@@ -15,7 +15,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-public class ClientConnectionGUI extends JFrame {
+public class ConnectionGUI extends JFrame {
 
 
 	/* Static */
@@ -26,12 +26,13 @@ public class ClientConnectionGUI extends JFrame {
 	private JTextField userName;
 	private JTextField serverIP;
 	private JTextField portNumber;
-	private ClientConnectionMediator ccm;
+	private JButton login;
+	private ConnectionMediator cm;
 
 
 	/* Constructors */
 
-	public ClientConnectionGUI() {
+	public ConnectionGUI() {
 
 		// Initialize GUI
 		init();
@@ -53,7 +54,7 @@ public class ClientConnectionGUI extends JFrame {
 		userName = new JTextField(15);
 		serverIP = new JTextField(15);
 		portNumber = new JTextField(15);
-		JButton login = new JButton("Connect");
+		login = new JButton("Connect");
 		JButton exit = new JButton("Exit");
 
 		// Set port number to default port
@@ -84,8 +85,16 @@ public class ClientConnectionGUI extends JFrame {
 			new ActionListener() {
 				public void actionPerformed(ActionEvent ae) {
 
-					// Tell CCM to Attempt a connection and pass it the Username, ServerIP and Port Number
-					getCCM().connectToServer(userName.getText(), serverIP.getText(), portNumber.getText());
+					// Confirm a username entered
+					if (!userName.getText().equals("")) {
+
+						// Disable Button
+						login.setEnabled(false);
+
+						// Ask to Try Connection
+						getCM().connectToServer(userName.getText(), serverIP.getText(), portNumber.getText());
+
+					}
 
 				}
 			}
@@ -100,18 +109,25 @@ public class ClientConnectionGUI extends JFrame {
 
 	}
 
+	public void failedLogin() {
+
+		// Re-Enable login button
+		login.setEnabled(true);
+
+	}
+
 
 	/* Mutators */
 
-	public void setCCM(ClientConnectionMediator aCCM) {
-		ccm = aCCM;
+	public void setCM(ConnectionMediator aCM) {
+		cm = aCM;
 	}
 
 
 	/* Accessors */
 
-	private ClientConnectionMediator getCCM() {
-		return ccm;
+	private ConnectionMediator getCM() {
+		return cm;
 	}
 
 

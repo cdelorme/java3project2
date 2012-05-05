@@ -1,9 +1,9 @@
 /**
  *
- * Receiver Interface
+ * Commander Interface
  *
  * @author Casey DeLorme
- * @version 04-16-2012
+ * @version 05-05-2012
  *
  */
 
@@ -11,7 +11,7 @@
 // Imports
 
 
-public interface Receiver {
+public interface Commander {
 
 
 	/* Static */
@@ -22,7 +22,7 @@ public interface Receiver {
 
 	/* Constructors */
 
-	public void interpret(String aCommand);
+	public void interpret(Object aCommand);
 
 
 	/* Custom Methods */

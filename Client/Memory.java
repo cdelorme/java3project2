@@ -3,7 +3,7 @@
  * Memory Game Instance, Display for the game
  *
  * @author Casey DeLorme
- * @version 04-16-2012
+ * @version 05-05-2012
  *
  */
 
@@ -15,14 +15,10 @@ import javax.swing.*;
 
 
 
-public class MemoryClient extends JFrame, implements GameClient {
+public class Memory extends JFrame, implements Game {
 
 
 	/* Static */
-
-	public static void main(String[] args) {
-		// Startup
-	}
 
 
 	/* Properties */
@@ -30,7 +26,7 @@ public class MemoryClient extends JFrame, implements GameClient {
 
 	/* Constructors */
 
-	public MemoryClient() {
+	public Memory() {
 
 		// Prepare GUI
 
@@ -38,12 +34,6 @@ public class MemoryClient extends JFrame, implements GameClient {
 
 
 	/* Custom Methods */
-
-	public void run() {
-
-		// Setup Display
-
-	}
 
 
 	/* Mutators */

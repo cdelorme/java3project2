@@ -3,7 +3,7 @@
  * Client CLI System
  *
  * @author Casey DeLorme
- * @version 04-16-2012
+ * @version 05-05-2012
  *
  */
 
@@ -11,7 +11,7 @@
 // Imports
 
 
-public class ClientCommandSystem implements Receiver {
+public class CommandSystem implements Commander {
 
 
 	/* Static */
@@ -22,7 +22,7 @@ public class ClientCommandSystem implements Receiver {
 
 	/* Constructors */
 
-	public ClientCommandSystem() {
+	public CommandSystem() {
 
 		// Prepare Self?
 
@@ -31,7 +31,10 @@ public class ClientCommandSystem implements Receiver {
 
 	/* Custom Methods */
 
-	public void interpret(String aCommand) {
+	public void interpret(Object aCommand) {
+
+		// Cast Object to Hashtable
+
 
 		// Identify which interpreter the command is for & pass it
 

@@ -3,7 +3,7 @@
  * Interface for User Factory
  *
  * @author Casey DeLorme
- * @version 04-16-2012
+ * @version 05-05-2012
  *
  */
 
@@ -24,12 +24,14 @@ public interface UserManager {
 
 	/* Constructors */
 
+
+	/* Custom Methods */
+
 	public void addUser(Socket aSocket);
 
 	public ArrayList<User> getUsers();
 
-
-	/* Custom Methods */
+	public void removeUser(User aUser);
 
 
 	/* Mutators */

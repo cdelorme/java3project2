@@ -3,7 +3,7 @@
  * Server Class Listens for Connections, accepts Port Number
  *
  * @author Casey DeLorme
- * @version 04-26-2012
+ * @version 05-05-2012
  *
  */
 
@@ -71,11 +71,10 @@ public class Server implements Runnable {
 		} catch (IOException ioe) {
 
 			// Report failed connection
-			System.out.println("Unable to establish connection on port " + aPort + ", system will not exit.");
+			System.out.println("Unable to establish connection on port " + aPort + ", system will now exit.");
 
 			// Exit
-			//System.exit(0);
-			// Not needed if we put init() inside the other?
+			System.exit(0);
 
 		}
 
@@ -96,20 +95,20 @@ public class Server implements Runnable {
 
 	public void run() {
 
+		// Output listening port
+		System.out.println("Server listening on port #" + getServerSocket().getLocalPort());
+
 		// Listen for Connections indefinitely
 		while (!ss.isClosed()) {
-
-			// Output listening port
-			System.out.println("Server listening on port #" + getServerSocket().getLocalPort());
 
 			// Attempt to catch new connections & Add users
 			try {
 
 				// On accept, pass to addUser method!
-				getUserManaer().addUser(getServerSocket().accept());
+				getUserManager().addUser(getServerSocket().accept());
 
 				// System message about each new connection
-				System.out.println("New connection established.");
+				System.out.println("New connection established." + getUserManager().getUsers().get(getUserManager().getUsers().size() - 1).getUserName());
 
 			} catch (IOException ioe) {
 
@@ -146,7 +145,7 @@ public class Server implements Runnable {
 
 	}
 
-	public UserManager getUserManaer() {
+	public UserManager getUserManager() {
 
 		return um;
 

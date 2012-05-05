@@ -2,8 +2,8 @@
  *
  * User Interface, limits access to defined "User" methods
  *
- * @author
- * @version
+ * @author Casey DeLorme
+ * @version 05-05-2012
  *
  */
 
@@ -25,13 +25,19 @@ public interface User {
 
 	/* Custom Methods */
 
-	public void sendMessage(String aMessage);
+	public void sendMessage(Object aMessage);
+
+	public void close();
 
 
 	/* Mutators */
 
+	public void setUserName(String aName);
+
 
 	/* Accessors */
+
+	public String getUserName();
 
 
 }
