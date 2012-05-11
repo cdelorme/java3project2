@@ -68,6 +68,30 @@ public class ClientConnection implements Runnable {
 				out = new ObjectOutputStream(getSocket().getOutputStream());
 				in = new ObjectInputStream(getSocket().getInputStream());
 
+				// Awesome, if everything worked thus far, we can try setting the username!
+				Hashtable<String, String> tmp = new Hashtable<String, String>();
+				tmp.put("SYSTEM", "CHAT");
+				tmp.put("COMMAND", "SETNAME");
+				tmp.put("USERNAME", getUserName());
+
+				// Attempt to send this command
+				try {
+
+					// Send!
+					out.writeObject(tmp);
+					out.flush();
+
+				} catch (IOException ioe) {
+
+					// Failed to send message, non-fatal but maybe important
+					JOptionPane.showMessageDialog(null, "Unable to send message to server.", "Write Failed", JOptionPane.ERROR_MESSAGE);
+					ret = false;
+
+				}
+
+				// On Success Thread Listener
+				if (ret) new Thread(this).start();
+
 			} catch (IOException iioe) {
 
 				// IO Streams failed to open, have to close connection, and return failed
@@ -81,30 +105,6 @@ public class ClientConnection implements Runnable {
 				} catch (IOException cioe) {}// Probably need to use System.exit(0) if close fails
 
 			}
-
-			// Awesome, if everything worked thus far, we can try setting the username!
-			Hashtable<String, String> tmp = new Hashtable<String, String>();
-			tmp.put("SYSTEM", "CHAT");
-			tmp.put("COMMAND", "SETNAME");
-			tmp.put("USERNAME", getUserName());
-
-			// Attempt to send this command
-			try {
-
-				// Send!
-				out.writeObject(tmp);
-				out.flush();
-
-			} catch (IOException ioe) {
-
-				// Failed to send message, non-fatal but maybe important
-				JOptionPane.showMessageDialog(null, "Unable to send message to server.", "Write Failed", JOptionPane.ERROR_MESSAGE);
-				ret = false;
-
-			}
-
-			// On Success Thread Listener
-			new Thread(this).start();
 
 		} catch (UnknownHostException uhe) {
 
@@ -166,7 +166,7 @@ public class ClientConnection implements Runnable {
 		 * realized this was a mistake, and re-integrated the closure process
 		 * by adding the ClientMediator here
 		 */
-		getCM().reset();
+		if (getCM() != null) getCM().reset();
 		setSocket(null);
 
 	}
