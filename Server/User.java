@@ -25,7 +25,7 @@ public interface User {
 
 	/* Custom Methods */
 
-	public void sendMessage(Object aMessage);
+	public void sendCommand(Object aCommand);
 
 	public void close();
 

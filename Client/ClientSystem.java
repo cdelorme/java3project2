@@ -1,6 +1,6 @@
 /**
  *
- * Commander Interface
+ * ClientSystem
  *
  * @author Casey DeLorme
  * @version 05-05-2012
@@ -11,7 +11,7 @@
 // Imports
 
 
-public interface Commander {
+public class ClientSystem implements Interpreter {
 
 
 	/* Static */
@@ -22,10 +22,12 @@ public interface Commander {
 
 	/* Constructors */
 
+	public ClientSystem() {
+		// Default Initialization
+	}
+
 
 	/* Custom Methods */
-
-	public void interpret(Object aCommand, User aUser);
 
 
 	/* Mutators */

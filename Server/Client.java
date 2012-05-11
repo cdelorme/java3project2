@@ -115,13 +115,13 @@ public class Client implements User, Runnable {
 
 	}
 
-	public void sendMessage(Object aMessage) {
+	public void sendCommand(Object aCommand) {
 
 		// Attempt sending a message
 		try {
 
 			// Use Output to send client a response
-			out.writeObject(aMessage);
+			out.writeObject(aCommand);
 			out.flush();
 
 		} catch (IOException ioe) {

@@ -83,7 +83,7 @@ public class Client {
 
 				} else {
 
-					// Connection Failed, errors Should have occurred elsewhere
+					// Connection Failed, error messages should have occurred elsewhere
 					// Re-enable GUI Button
 					getCM().failedLogin();
 
@@ -97,9 +97,16 @@ public class Client {
 
 	private void startChatClient() {
 
+		// Verification
+		System.out.println("Starting Chat Client");
+
+		// Load SystemGUI
+
+
+		// Send it ChatGUI
+
 		// Load the Chat Client
 		// Verified it reaches this
-		System.out.println("Starting Chat Client");
 
 	}
 
