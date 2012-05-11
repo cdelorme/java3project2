@@ -3,7 +3,7 @@
  * Connection object could be used to separate the connection from the Client GUI
  *
  * @author Casey DeLorme
- * @version 05-03-2012
+ * @version 05-11-2012
  *
  */
 
@@ -135,12 +135,11 @@ public class ClientConnection implements Runnable {
 
 		}
 
-		// Approach #1 was to create another mediator, which "might" have cleaned things up a bit
-		// However, this approach had its own flaws
-		// Since the other components of the system have to react to a lost connection
-		// We shift responsibility to those classes
-		// If a connection is dropped, they will encounter an error, and tell the Client to reset
-
+		/*
+		 * Chosen approach is when the loop ends the socket has already been closed
+		 * The ending here unsets the socket
+		 */
+		setSocket(null);
 
 	}
 
@@ -159,6 +158,17 @@ public class ClientConnection implements Runnable {
 			JOptionPane.showMessageDialog(null, "Unable to send message to server.", "Write Failed", JOptionPane.ERROR_MESSAGE);
 
 		}
+
+	}
+
+	public void close() {
+
+		// Attempt to Close Socket
+		try {
+
+			getSocket().close();
+
+		} catch (IOException ioe) {}
 
 	}
 

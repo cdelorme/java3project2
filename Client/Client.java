@@ -3,7 +3,7 @@
  * Client Loads Required Objects to Establish Connection
  *
  * @author Casey DeLorme
- * @version 05-05-2012
+ * @version 05-11-2012
  *
  */
 
@@ -15,7 +15,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-public class Client {
+public class Client implements ClientGUIMediator {
 
 
 	/* Static */
@@ -31,8 +31,9 @@ public class Client {
 	/* Properties */
 
 	private ConnectionGUI cg;
-	private ConnectionMediator cm;
+	private ConnectionAdapter ca;
 	private ClientConnection cc;
+	private SystemGUI sg;
 
 
 	/* Constructors */
@@ -52,14 +53,14 @@ public class Client {
 		// Load Connection GUI
 		setCG(new ConnectionGUI());
 
-		// Load Connection Mediator
-		setCM(new ConnectionMediator(this));
+		// Load Connection Adapter
+		setCA(new ConnectionAdapter(this));
 
 	}
 
 	public void connectToServer(String aName, String anAddress, int aPort) {
 
-		// Try connection & Return results to CCM
+		// Try connection
 		setCC(new ClientConnection(aName, anAddress, aPort));
 
 		// Thread the connection attempt
@@ -73,19 +74,19 @@ public class Client {
 					// Successful Connection!!!
 
 					// Close ConnectionGUI
-					getCM().closeGUI();
+					getCA().closeGUI();
 
-					// Null Mediator
-					setCM(null);
+					// Null Adapter
+					setCA(null);
 
 					// Begin Chat Client
-					startChatClient();
+					loadGUI();
 
 				} else {
 
 					// Connection Failed, error messages should have occurred elsewhere
 					// Re-enable GUI Button
-					getCM().failedLogin();
+					getCA().failedLogin();
 
 				}
 
@@ -95,26 +96,32 @@ public class Client {
 
 	}
 
-	private void startChatClient() {
-
-		// Verification
-		System.out.println("Starting Chat Client");
+	private void loadGUI() {
 
 		// Load SystemGUI
+		setSG(new SystemGUI(this, getCC()));
 
+	}
 
-		// Send it ChatGUI
+	public void reset() {
 
-		// Load the Chat Client
-		// Verified it reaches this
+		// Close Connection
+		getCC().close();
+
+		// Unset All Objects
+		setCC(null);
+		setSG(null);
+
+		// Call init()
+		init();
 
 	}
 
 
 	/* Mutators */
 
-	private void setCM(ConnectionMediator aCM) {
-		cm = aCM;
+	private void setCA(ConnectionAdapter aCA) {
+		ca = aCA;
 	}
 
 	private void setCG(ConnectionGUI aCG) {
@@ -125,11 +132,15 @@ public class Client {
 		cc = aCC;
 	}
 
+	private void setSG(SystemGUI aSG) {
+		sg = aSG;
+	}
+
 
 	/* Accessors */
 
-	private ConnectionMediator getCM() {
-		return cm;
+	private ConnectionAdapter getCA() {
+		return ca;
 	}
 
 	public ConnectionGUI getCG() {
@@ -138,6 +149,10 @@ public class Client {
 
 	private ClientConnection getCC() {
 		return cc;
+	}
+
+	private SystemGUI getSG() {
+		return sg;
 	}
 
 

@@ -1,9 +1,9 @@
 /**
  *
- * Mediator for ConnectionGUI and Client
+ * Adapter for ConnectionGUI and Client
  *
  * @author Casey DeLorme
- * @version 05-05-2012
+ * @version 05-11-2012
  *
  */
 
@@ -15,7 +15,8 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-public class ConnectionMediator {
+//public class ConnectionMediator {
+public class ConnectionAdapter {
 
 
 	/* Static */
@@ -29,7 +30,8 @@ public class ConnectionMediator {
 
 	/* Constructors */
 
-	public ConnectionMediator(Client aClient) {
+//	public ConnectionMediator(Client aClient) {
+	public ConnectionAdapter(Client aClient) {
 
 		// Set Client
 		setClient(aClient);
@@ -38,7 +40,7 @@ public class ConnectionMediator {
 		setCG(getClient().getCG());
 
 		// Send Self to CCG
-		getCG().setCM(this);
+		getCG().setCA(this);
 
 	}
 
