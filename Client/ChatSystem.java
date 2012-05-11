@@ -40,9 +40,40 @@ public class ChatSystem implements Interpreter {
 	public void interpret(Hashtable aCommand) {
 
 		// Check aCommand to determine action
+		String command = (String) aCommand.get("COMMAND");
 
-		if (aCommand.get("COMMAND").equals("")) {
-			// Do Something!
+		if (command.equals("ADDUSER")) {
+
+			// Get Username
+			String aUserName = (String) aCommand.get("USERNAME");
+
+			// Add User
+			getCG().addUser(aUserName);
+
+		} else if (command.equals("REMOVEUSER")) {
+
+			// Get Username
+			String aUserName = (String) aCommand.get("USERNAME");
+
+			// Remove User
+			getCG().removeUser(aUserName);
+
+		} else if (command.equals("MESSAGE")) {
+
+			// Get Message
+			String aMessage = (String) aCommand.get("MESSAGE");
+
+			// Append that Message
+			getCG().receiveMessage(aMessage);
+
+		} else if (command.equals("CHALLENGE")) {
+
+			// Get Challenger
+			String aChallenger = (String) aCommand.get("CHALLENGER");
+
+			// Submit Challenge
+			getCG().receiveChallenge(aChallenger);
+
 		}
 
 	}

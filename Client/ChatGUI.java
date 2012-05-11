@@ -27,7 +27,9 @@ public class ChatGUI extends JPanel {
 	private JTextField chatMessage;
 	private JTextArea chatBox;
 	private JList userList;
+	private DefaultListModel users;
 	private JButton challenge;
+	private JButton submit;
 
 
 	/* Constructors */
@@ -54,11 +56,14 @@ public class ChatGUI extends JPanel {
 		chatMessage = new JTextField(16);
 		chatBox = new JTextArea(12, 40);
 		chatBox.setEditable(false);
-		userList = new JList();
+		chatBox.setText("Welcome to Java 219 Chat Game System!");
+		users = new DefaultListModel();
+		userList = new JList(users);
+		submit = new JButton(">");
+		submit.setEnabled(false);
 
 		// Create Chat System Elements
 		JScrollPane chatScroll = new JScrollPane(chatBox);
-		JButton submit = new JButton(">");
 		JPanel south = new JPanel();
 		challenge = new JButton("Challenge");
 		challenge.setEnabled(false);
@@ -80,6 +85,22 @@ public class ChatGUI extends JPanel {
 				// If Enter Call Send Message
 				if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
 					sendMessage();
+				}
+
+			}
+			public void keyReleased(KeyEvent ke) {
+
+				// If message field has data
+				if (chatMessage.getText().length() >= 1) {
+
+					// Enable Send
+					submit.setEnabled(true);
+
+				} else {
+
+					// Disable Send
+					submit.setEnabled(false);
+
 				}
 
 			}
@@ -114,8 +135,6 @@ public class ChatGUI extends JPanel {
 
 				if (userList.getSelectedIndex() != -1) {
 
-					// Have to test value printout works before I try to run a command
-/*
 					// Disable Button
 					challenge.setEnabled(false);
 
@@ -123,14 +142,15 @@ public class ChatGUI extends JPanel {
 					Hashtable<String, String> aCommand = new Hashtable<String, String>();
 					aCommand.put("SYSTEM", "CHAT");
 					aCommand.put("COMMAND", "CHALLENGE");
-					aCommand.put("USERNAME", userList.getSelectedValue());
+					aCommand.put("CHALLENGER", getCC().getUserName());
+					aCommand.put("RECIPIENT", (String) userList.getSelectedValue());
 
 					// De-select username from list
-					//userList.setSelectedIndex(-1);
+					userList.clearSelection();
 
 					// Send Command
 					getCC().sendCommand(aCommand);
-*/
+
 				}
 
 			}
@@ -146,18 +166,60 @@ public class ChatGUI extends JPanel {
 	public void sendMessage() {
 
 		// If Message is not empty
-		if (chatMessage.getText().length() > 0) {
+		if (chatMessage.getText().length() >= 1) {
 
 			// Create a Hashtable Command
 			Hashtable<String, String> aCommand = new Hashtable<String, String>();
 
 			// Set the Command Information
 			aCommand.put("SYSTEM", "CHAT");
-			aCommand.put("COMMAND", "SEND");
+			aCommand.put("COMMAND", "MESSAGE");
 			aCommand.put("MESSAGE", chatMessage.getText());
 
 			// Send the Command to the Server
 			getCC().sendCommand(aCommand);
+
+		}
+
+	}
+
+	public void addUser(String aUserName) {
+
+		// Add Username to List
+		users.addElement(aUserName);
+
+	}
+
+	public void removeUser(String aUserName) {
+
+		// Removing matching username
+		users.removeElement(aUserName);
+
+	}
+
+	public void receiveMessage(String aMessage) {
+
+		// Append message to ChatBox
+		chatBox.append("\n" + aMessage);
+
+	}
+
+	public void receiveChallenge(String aChallenger) {
+
+		// Asks the user if they accept the Challenge via JOptionPane
+		int choice = JOptionPane.showConfirmDialog(
+			null,
+			aChallenger + " has challenged you to a game of Memory, do you accept?",
+			"Challenge",
+			JOptionPane.YES_NO_OPTION,
+			JOptionPane.INFORMATION_MESSAGE
+		);
+
+		// Validate Replay Choice
+		if (choice == JOptionPane.YES_OPTION) {
+
+			// Create a Command to Accept Challenge
+			// Server will create game instance & pass the GameID to both players
 
 		}
 

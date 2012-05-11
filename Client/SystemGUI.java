@@ -52,7 +52,7 @@ public class SystemGUI extends JFrame {
 	private void init() {
 
 		// Window Initialization
-		setTitle("Client GUI");
+		setTitle(getCC().getUserName() + " - Client GUI");
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -96,11 +96,11 @@ public class SystemGUI extends JFrame {
 					// Hide Self
 					setVisible(false);
 
-					// Unset CC
-					setCC(null);
+					// Close Connection
+					getCC().close();
 
-					// Tell Client to Reset
-					getCM().reset();
+					// Unset CC reference
+					setCC(null);
 
 					// Dispose of Self
 					dispose();

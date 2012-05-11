@@ -84,7 +84,7 @@ public class ClientConnection implements Runnable {
 
 			// Awesome, if everything worked thus far, we can try setting the username!
 			Hashtable<String, String> tmp = new Hashtable<String, String>();
-			tmp.put("SYSTEM", "USER");
+			tmp.put("SYSTEM", "CHAT");
 			tmp.put("COMMAND", "SETNAME");
 			tmp.put("USERNAME", getUserName());
 
@@ -243,7 +243,7 @@ public class ClientConnection implements Runnable {
 		return port;
 	}
 
-	private String getUserName() {
+	public String getUserName() {
 		return userName;
 	}
 

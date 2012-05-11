@@ -82,7 +82,8 @@ public class Client implements User, Runnable {
 			} catch (IOException ioe) {
 
 				// Report Failed IO
-				System.out.println("Read failed, closing Client Connection: " + getSocket().toString());
+				//System.out.println("Read failed, closing Client Connection: " + getSocket().toString());
+				System.out.println("Read failed, closing Client Connection: " + getUserName());
 
 				// Close Socket
 				close();
@@ -93,9 +94,15 @@ public class Client implements User, Runnable {
 
 		// Use commander to tell USER system to REMOVE self
 		Hashtable<String, String> tmp = new Hashtable<String, String>();
-		tmp.put("SYSTEM", "USER");
+		tmp.put("SYSTEM", "CHAT");
 		tmp.put("COMMAND", "REMOVE");
 		getCommander().interpret(tmp, this);
+
+		// Null Socket
+		setSocket(null);
+
+		// Null Username
+		setUserName(null);
 
 	}
 
@@ -105,12 +112,6 @@ public class Client implements User, Runnable {
 		try {
 			getSocket().close();
 		} catch (IOException ioe) {}
-
-		// Null Socket
-		setSocket(null);
-
-		// Null Username
-		setUserName(null);
 
 	}
 
@@ -126,7 +127,10 @@ public class Client implements User, Runnable {
 		} catch (IOException ioe) {
 
 			// report failed message send operation
-			System.out.println("Failed to send command to: " + getSocket().toString());
+			System.out.println("Failed to send command to: " + getUserName());
+
+			// Close Connection
+			close();
 
 		}
 

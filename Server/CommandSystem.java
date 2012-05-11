@@ -32,7 +32,8 @@ public class CommandSystem implements Commander {
 		setInterpreters(new ArrayList<Interpreter>());
 
 		// Create/Load Interpreters
-		getInterpreters().add(new UserSystem(aUM));
+		getInterpreters().add(new ChatSystem(aUM));
+		//getInterpreters().add(new UserSystem(aUM));
 		//getInterpreters().add();
 		// Chat
 		// Game
