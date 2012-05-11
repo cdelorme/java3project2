@@ -13,6 +13,7 @@ import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.*;
 
 
 public class ConnectionGUI extends JFrame {
@@ -23,11 +24,11 @@ public class ConnectionGUI extends JFrame {
 
 	/* Properties */
 
+	private ConnectionAdapter ca;
 	private JTextField userName;
 	private JTextField serverIP;
 	private JTextField portNumber;
 	private JButton login;
-	private ConnectionMediator cm;
 
 
 	/* Constructors */
@@ -57,6 +58,13 @@ public class ConnectionGUI extends JFrame {
 		login = new JButton("Connect");
 		JButton exit = new JButton("Exit");
 
+		// Disable Connect by Default
+		login.setEnabled(false);
+
+		// Add Mnemonics
+		login.setMnemonic('C');
+		exit.setMnemonic('X');
+
 		// Set port number to default port
 		portNumber.setText("16789");
 
@@ -69,32 +77,71 @@ public class ConnectionGUI extends JFrame {
 		add(login);
 		add(exit);
 
-		// Set Handler
+		// Set Event Handlers
+		login.addActionListener(
+			new ActionListener() {
+				public void actionPerformed(ActionEvent ae) {
+
+					// Call Connection Method
+					tryConnection();
+
+				}
+			}
+		);
+		userName.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent ke) {
+
+				// If Enter Attempt Connection
+				if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
+					tryConnection();
+				}
+
+			}
+			public void keyReleased(KeyEvent ke) {
+
+				// Login Button Adjustment
+				checkLogin();
+
+			}
+		});
+		serverIP.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent ke) {
+
+				// If Enter Attempt Connection
+				if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
+					tryConnection();
+				}
+
+			}
+			public void keyReleased(KeyEvent ke) {
+
+				// Login Button Adjustment
+				checkLogin();
+
+			}
+		});
+		portNumber.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent ke) {
+
+				// If Enter Attempt Connection
+				if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
+					tryConnection();
+				}
+
+			}
+			public void keyReleased(KeyEvent ke) {
+
+				// Login Button Adjustment
+				checkLogin();
+
+			}
+		});
 		exit.addActionListener(
 			new ActionListener() {
 				public void actionPerformed(ActionEvent ae) {
 
 					// Exit
 					System.exit(0);
-
-				}
-			}
-		);
-
-		login.addActionListener(
-			new ActionListener() {
-				public void actionPerformed(ActionEvent ae) {
-
-					// Confirm a username entered
-					if (!userName.getText().equals("")) {
-
-						// Disable Button
-						login.setEnabled(false);
-
-						// Ask to Try Connection
-						getCM().connectToServer(userName.getText(), serverIP.getText(), portNumber.getText());
-
-					}
 
 				}
 			}
@@ -109,6 +156,38 @@ public class ConnectionGUI extends JFrame {
 
 	}
 
+	private void checkLogin() {
+
+		// If all three inputs are populated
+		if (userName.getText().length() >= 1 && serverIP.getText().length() >= 1 && portNumber.getText().length() >= 1) {
+
+			// Enable login
+			login.setEnabled(true);
+
+		} else {
+
+			// Disable Login
+			login.setEnabled(false);
+
+		}
+
+	}
+
+	private void tryConnection() {
+
+		// Confirm a username entered
+		if (!userName.getText().equals("")) {
+
+			// Disable Button
+			login.setEnabled(false);
+
+			// Ask to Try Connection
+			getCA().connectToServer(userName.getText(), serverIP.getText(), portNumber.getText());
+
+		}
+
+	}
+
 	public void failedLogin() {
 
 		// Re-Enable login button
@@ -119,15 +198,15 @@ public class ConnectionGUI extends JFrame {
 
 	/* Mutators */
 
-	public void setCM(ConnectionMediator aCM) {
-		cm = aCM;
+	public void setCA(ConnectionAdapter aCA) {
+		ca = aCA;
 	}
 
 
 	/* Accessors */
 
-	private ConnectionMediator getCM() {
-		return cm;
+	private ConnectionAdapter getCA() {
+		return ca;
 	}
 
 
