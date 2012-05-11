@@ -15,7 +15,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-public class Client implements ClientGUIMediator {
+public class Client implements ClientMediator {
 
 
 	/* Static */
@@ -34,6 +34,7 @@ public class Client implements ClientGUIMediator {
 	private ConnectionAdapter ca;
 	private ClientConnection cc;
 	private SystemGUI sg;
+	private Commander cs;
 
 
 	/* Constructors */
@@ -98,15 +99,24 @@ public class Client implements ClientGUIMediator {
 
 	private void loadGUI() {
 
+		// Send ClientMediator to Connection
+		getCC().setCM(this);
+
+		// Load Commander
+		setC(new CommandSystem());
+
 		// Load SystemGUI
-		setSG(new SystemGUI(this, getCC()));
+		setSG(new SystemGUI(this, getC(), getCC()));
+
+		// Get Commander to ClientConnection
+		getCC().setC(getC());
 
 	}
 
 	public void reset() {
 
 		// Close Connection
-		getCC().close();
+		if (getCC() != null) getCC().close();
 
 		// Unset All Objects
 		setCC(null);
@@ -136,6 +146,10 @@ public class Client implements ClientGUIMediator {
 		sg = aSG;
 	}
 
+	private void setC(Commander aC) {
+		cs = aC;
+	}
+
 
 	/* Accessors */
 
@@ -153,6 +167,10 @@ public class Client implements ClientGUIMediator {
 
 	private SystemGUI getSG() {
 		return sg;
+	}
+
+	private Commander getC() {
+		return cs;
 	}
 
 

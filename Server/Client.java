@@ -3,7 +3,7 @@
  * Server Client object, aka User
  *
  * @author Casey DeLorme
- * @version 05-05-2012
+ * @version 05-11-2012
  *
  */
 
@@ -22,12 +22,11 @@ public class Client implements User, Runnable {
 
 	/* Properties */
 
-	private Socket s;
-	private String userName;
 	private Commander c;
+	private Socket s;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
-	// Other Reference Variables?
+	private String userName;
 
 
 	/* Constructors */

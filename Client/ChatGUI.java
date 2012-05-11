@@ -24,7 +24,6 @@ public class ChatGUI extends JPanel {
 	/* Properties */
 
 	private ClientConnection cc;
-	private ClientGUIMediator cgm;
 	private JTextField chatMessage;
 	private JTextArea chatBox;
 	private JList userList;
@@ -33,10 +32,7 @@ public class ChatGUI extends JPanel {
 
 	/* Constructors */
 
-	public ChatGUI(ClientGUIMediator aCGM, ClientConnection aCC) {
-
-		// Set ClientGUIMediator
-		setCGM(aCGM);
+	public ChatGUI(ClientConnection aCC) {
 
 		// Assign the ClientConnection
 		setCC(aCC);
@@ -50,27 +46,6 @@ public class ChatGUI extends JPanel {
 	/* Custom Methods */
 
 	private void init() {
-
-		// Create Elements required for Chat System
-
-		/*
-		 * Five Elements:
-		 * Scrollable Text Area
-		 * Input JTextField
-		 * Submit Button
-		 * User JList
-		 * Challenge JButton
-		 *
-		 * Implementation of functionality should be fairly easy
-		 *
-		 * Still missing the JList for Users
-		 * and the Challenge JButton
-		 *
-		 * Going to put them on the left hand side, so EAST?
-		 * Gotta make a JPanel and add them to it
-		 *
-		 *
-		 */
 
 		// Set Layout
 		setLayout(new BorderLayout());
@@ -137,11 +112,26 @@ public class ChatGUI extends JPanel {
 		challenge.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 
-				// Check userList for selected
-				// Disable Enabled
-				// Deselect User
-				// Create Hashtable Command
-				// sendCommand
+				if (userList.getSelectedIndex() != -1) {
+
+					// Have to test value printout works before I try to run a command
+/*
+					// Disable Button
+					challenge.setEnabled(false);
+
+					// Create & Prepare Hashtable Command
+					Hashtable<String, String> aCommand = new Hashtable<String, String>();
+					aCommand.put("SYSTEM", "CHAT");
+					aCommand.put("COMMAND", "CHALLENGE");
+					aCommand.put("USERNAME", userList.getSelectedValue());
+
+					// De-select username from list
+					//userList.setSelectedIndex(-1);
+
+					// Send Command
+					getCC().sendCommand(aCommand);
+*/
+				}
 
 			}
 		});
@@ -180,19 +170,11 @@ public class ChatGUI extends JPanel {
 		cc = aCC;
 	}
 
-	private void setCGM(ClientGUIMediator aCGM) {
-		cgm = aCGM;
-	}
-
 
 	/* Accessors */
 
 	private ClientConnection getCC() {
 		return cc;
-	}
-
-	private ClientGUIMediator getCGM() {
-		return cgm;
 	}
 
 

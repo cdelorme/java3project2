@@ -28,6 +28,8 @@ public interface Interpreter {
 
 	public void interpret(Hashtable aCommand);
 
+	public String getSystem();
+
 
 	/* Mutators */
 

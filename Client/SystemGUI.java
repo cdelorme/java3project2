@@ -22,17 +22,21 @@ public class SystemGUI extends JFrame {
 
 	/* Properties */
 
-	private ClientGUIMediator cgm;
+	private ClientMediator cm;
 	private ClientConnection cc;
 	private ChatGUI cg;
+	private Commander cs;
 
 
 	/* Constructors */
 
-	public SystemGUI(ClientGUIMediator aCGM, ClientConnection aCC) {
+	public SystemGUI(ClientMediator aCM, Commander aC, ClientConnection aCC) {
 
-		// Assign ClientGUIMediator
-		setCGM(aCGM);
+		// Set Commander
+		setC(aC);
+
+		// Assign ClientMediator
+		setCM(aCM);
 
 		// Assign the ClientConnection
 		setCC(aCC);
@@ -69,7 +73,7 @@ public class SystemGUI extends JFrame {
 
 		// Create Mnemonics
 		file.setMnemonic('F');
-		disco.setMnemonic('R');
+		disco.setMnemonic('D');
 		exit.setMnemonic('X');
 		help.setMnemonic('H');
 		about.setMnemonic('A');
@@ -96,7 +100,7 @@ public class SystemGUI extends JFrame {
 					setCC(null);
 
 					// Tell Client to Reset
-					getCGM().reset();
+					getCM().reset();
 
 					// Dispose of Self
 					dispose();
@@ -116,7 +120,16 @@ public class SystemGUI extends JFrame {
 		);
 
 		// Create ChatGUI
-		setCG(new ChatGUI(getCGM(), getCC()));
+		setCG(new ChatGUI(getCC()));
+
+		// Create Chat Interpreter and pass to Commander
+		getC().addInterpreter(new ChatSystem(getCG()));
+
+		// Create GameFactory
+
+
+		// Create GameInterpreter and pass to Commander
+
 
 		// Append Display Components to Self
 		add(menu, BorderLayout.NORTH);
@@ -155,8 +168,12 @@ public class SystemGUI extends JFrame {
 		cg = aCG;
 	}
 
-	private void setCGM(ClientGUIMediator aCGM) {
-		cgm = aCGM;
+	private void setCM(ClientMediator aCM) {
+		cm = aCM;
+	}
+
+	public void setC(Commander aC) {
+		cs = aC;
 	}
 
 
@@ -170,8 +187,12 @@ public class SystemGUI extends JFrame {
 		return cg;
 	}
 
-	private ClientGUIMediator getCGM() {
-		return cgm;
+	private ClientMediator getCM() {
+		return cm;
+	}
+
+	private Commander getC() {
+		return cs;
 	}
 
 

@@ -19,14 +19,11 @@ public class CommandSystem implements Commander {
 
 	/* Properties */
 
+	// ArrayList of Interpreters
 
 	/* Constructors */
 
-	public CommandSystem() {
-
-		// Prepare Self?
-
-	}
+	public CommandSystem() {}
 
 
 	/* Custom Methods */
@@ -39,6 +36,20 @@ public class CommandSystem implements Commander {
 		// Identify which interpreter the command is for & pass it
 
 	}
+
+	public void removeInterpreter(String systemName) {
+
+		// Remove Matching System Name from ArrayList
+
+
+	}
+
+	public void addInterpreter(Interpreter anInterpreter) {
+
+		// Add Interpreter to ArrayList
+
+	}
+
 
 
 	/* Mutators */

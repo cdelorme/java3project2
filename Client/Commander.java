@@ -24,6 +24,10 @@ public interface Commander {
 
 	public void interpret(Object aCommand);
 
+	public void removeInterpreter(String systemName);
+
+	public void addInterpreter(Interpreter anInterpreter);
+
 
 	/* Custom Methods */
 

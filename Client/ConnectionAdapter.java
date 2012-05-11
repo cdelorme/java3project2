@@ -15,7 +15,6 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-//public class ConnectionMediator {
 public class ConnectionAdapter {
 
 
@@ -30,7 +29,6 @@ public class ConnectionAdapter {
 
 	/* Constructors */
 
-//	public ConnectionMediator(Client aClient) {
 	public ConnectionAdapter(Client aClient) {
 
 		// Set Client

@@ -23,12 +23,14 @@ public class ClientConnection implements Runnable {
 
 	/* Properties */
 
+	private Commander cs;
+	private ClientMediator cm;
 	private Socket s;
+	private ObjectInputStream in;
+	private ObjectOutputStream out;
 	private String userName;
 	private String address;
 	private int port;
-	private ObjectInputStream in;
-	private ObjectOutputStream out;
 
 
 	/* Constructors */
@@ -101,7 +103,7 @@ public class ClientConnection implements Runnable {
 
 			}
 
-			// On Success callback to Client
+			// On Success Thread Listener
 			new Thread(this).start();
 
 		} catch (UnknownHostException uhe) {
@@ -125,20 +127,46 @@ public class ClientConnection implements Runnable {
 		// Loop Listener
 		while (!getSocket().isClosed()) {
 
-			// Listen for Command
+			// Ignore Traffic until Commander is setup
+			if (getC() != null) {
 
+				// Attempt to receive commands from Server
+				try {
 
-			// Loop until connection has been closed
-			// This should be accepting input and passing it to the Receiver
-			// Try/Catch closes socket if error is fatal
+					// Parse Object to Commander for Interpretation
+					getC().interpret(in.readObject());
 
+				} catch (ClassNotFoundException cnfe) {
+
+					// Data sent was invalid
+					// No specific handler available, but not a fatal error either
+
+				} catch (IOException ioe) {
+
+					// If the connection was not already closed
+					if (!getSocket().isClosed()) {
+
+						// Inform user receive failed
+						JOptionPane.showMessageDialog(null, "Unable to receive message from server.", "Read Failed", JOptionPane.ERROR_MESSAGE);
+
+						// IO Failed, Close Socket
+						close();
+
+					}
+
+				}
+
+			}
 
 		}
 
 		/*
-		 * Chosen approach is when the loop ends the socket has already been closed
-		 * The ending here unsets the socket
+		 * I had many ideas for the best approach to handle this
+		 * I initially thought to pass it off to the GUI classes but
+		 * realized this was a mistake, and re-integrated the closure process
+		 * by adding the ClientMediator here
 		 */
+		getCM().reset();
 		setSocket(null);
 
 	}
@@ -154,8 +182,9 @@ public class ClientConnection implements Runnable {
 
 		} catch (IOException ioe) {
 
-			// Failed to send message, non-fatal but maybe important
+			// IO Failed, Inform user & Close Socket
 			JOptionPane.showMessageDialog(null, "Unable to send message to server.", "Write Failed", JOptionPane.ERROR_MESSAGE);
+			close();
 
 		}
 
@@ -163,12 +192,12 @@ public class ClientConnection implements Runnable {
 
 	public void close() {
 
-		// Attempt to Close Socket
-		try {
+			// Attempt to Close Socket
+			try {
 
-			getSocket().close();
+				getSocket().close();
 
-		} catch (IOException ioe) {}
+			} catch (IOException ioe) {}
 
 	}
 
@@ -191,6 +220,14 @@ public class ClientConnection implements Runnable {
 		userName = aName;
 	}
 
+	public void setC(Commander aC) {
+		cs = aC;
+	}
+
+	public void setCM(ClientMediator aCM) {
+		cm = aCM;
+	}
+
 
 	/* Accessors */
 
@@ -208,6 +245,14 @@ public class ClientConnection implements Runnable {
 
 	private String getUserName() {
 		return userName;
+	}
+
+	private Commander getC() {
+		return cs;
+	}
+
+	private ClientMediator getCM() {
+		return cm;
 	}
 
 
