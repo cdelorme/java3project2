@@ -1,9 +1,9 @@
 /**
  *
- * Client Game Command Interpreter
+ * Game System Interprets Game Commands!
  *
  * @author Casey DeLorme
- * @version 05-05-2012
+ * @version 05-12-2012
  *
  */
 
@@ -22,29 +22,37 @@ public class GameSystem implements Interpreter {
 
 	/* Properties */
 
+	private UserManager um;
 	private GameFactory gf;
 
 
 	/* Constructors */
 
-	public GameSystem(GameFactory aGF) {
+	public GameSystem(UserManager aUM) {
 
-		// Set Game Factory
-		setGF(aGF);
+		// Set User Manager
+		setUM(aUM);
+
+		// Create GameFactory
+		setGF(new GameFactory());
 
 	}
 
 
 	/* Custom Methods */
 
-	public void interpret(Hashtable aCommand) {
+	public void interpret(Hashtable aCommand, User aUser) {
 
-		// Do!
+		// Interpret!
 
 	}
 
 
 	/* Mutators */
+
+	private void setUM(UserManager aUM) {
+		um = aUM;
+	}
 
 	private void setGF(GameFactory aGF) {
 		gf = aGF;
@@ -52,6 +60,10 @@ public class GameSystem implements Interpreter {
 
 
 	/* Accessors */
+
+	public UserManager getUM() {
+		return um;
+	}
 
 	public String getSystem() {
 		return SYSTEM;

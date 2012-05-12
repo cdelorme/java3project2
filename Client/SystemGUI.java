@@ -14,7 +14,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-public class SystemGUI extends JFrame {
+public class SystemGUI extends JFrame implements SystemMediator {
 
 
 	/* Static */
@@ -25,6 +25,7 @@ public class SystemGUI extends JFrame {
 	private ClientMediator cm;
 	private ClientConnection cc;
 	private ChatGUI cg;
+	private GameFactory gf;
 	private Commander cs;
 
 
@@ -126,21 +127,22 @@ public class SystemGUI extends JFrame {
 		getC().addInterpreter(new ChatSystem(getCG()));
 
 		// Create GameFactory
-
+		setGF(new GameFactory(getCC(), this));
 
 		// Create GameInterpreter and pass to Commander
-
+		getC().addInterpreter(new GameSystem(getGF()));
 
 		// Append Display Components to Self
 		add(menu, BorderLayout.NORTH);
 		add(getCG(), BorderLayout.CENTER);
+		add(getGF(), BorderLayout.EAST);
 
-		// Resize
+		// Resize - May not be needed here anymore
 		resizeMe();
 
 	}
 
-	private void resizeMe() {
+	public void resizeMe() {
 
 		// Size to Contained Items
 		pack();
@@ -168,6 +170,10 @@ public class SystemGUI extends JFrame {
 		cg = aCG;
 	}
 
+	private void setGF(GameFactory aGF) {
+		gf = aGF;
+	}
+
 	private void setCM(ClientMediator aCM) {
 		cm = aCM;
 	}
@@ -185,6 +191,10 @@ public class SystemGUI extends JFrame {
 
 	private ChatGUI getCG() {
 		return cg;
+	}
+
+	private GameFactory getGF() {
+		return gf;
 	}
 
 	private ClientMediator getCM() {

@@ -1,33 +1,35 @@
 /**
  *
- * DESCRIPTION
+ * Game Factory, creates and maintains Game Instances!
  *
- * @author
- * @version
+ * @author Casey DeLorme
+ * @version 05-12-2012
  *
  */
 
 
 // Imports
+import java.util.ArrayList;
 
 
-public class SkeletonClass {
+public class GameFactory {
 
 
 	/* Static */
 
-	public static void main(String[] args) {
-		// Startup
-	}
-
 
 	/* Properties */
+
+	private ArrayList<Game> games;
 
 
 	/* Constructors */
 
-	public SkeletonClass() {
-		// Default Initialization
+	public GameFactory() {
+
+		// Prepare Games ArrayList
+		games = new ArrayList<Game>();
+
 	}
 
 
