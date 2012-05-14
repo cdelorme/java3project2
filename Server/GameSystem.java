@@ -3,7 +3,7 @@
  * Game System Interprets Game Commands!
  *
  * @author Casey DeLorme
- * @version 05-12-2012
+ * @version 05-13-2012
  *
  */
 
@@ -71,8 +71,31 @@ public class GameSystem implements Interpreter {
 
 			}
 
-		} else if (command.equals("SOMETHING")) {
+		} else if (command.equals("SHOW")) {
 
+			// Parse GameID, Click, and X & Y coordinates
+			int gameID = Integer.parseInt((String) aCommand.get("GAMEID"));
+			int theX = Integer.parseInt((String) aCommand.get("X"));
+			int theY = Integer.parseInt((String) aCommand.get("Y"));
+
+			// Game TMP
+			Game tmp = null;
+
+			// Send Three Options to get By ID
+			for (Game g : getGF().getGames()) {
+
+				// If Match Found
+				if (g.getGameID() == gameID) tmp = g;
+
+			}
+
+			// Perform Separately to avoid ConcurrentModificationException
+			if (tmp != null) {
+
+				// Send ShowTile Command
+				tmp.showTile(aUser, theX, theY);
+
+			}
 
 		}
 

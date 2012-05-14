@@ -1,5 +1,9 @@
 /**
  *
+ * Tabbed display system for Games, also management for their creation
+ *
+ * @author Casey Delorme
+ * @version 05-13-2012
  *
  */
 
@@ -11,7 +15,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-public class GameFactory extends JTabbedPane {
+public class GameFactory extends JTabbedPane implements GameMediator {
 
 
 	/* Static */
@@ -81,10 +85,20 @@ public class GameFactory extends JTabbedPane {
 		 */
 
 		// Create new Memory Instance
-		getGames().add(new Memory(aGameID));
+		getGames().add(new Memory(getCC(), this, aGameID, getCC().getUserName(), anOpponent));
 
 		// Create new Tab with appropriate labels
 		addTab(anOpponent + " (" + aGameID + ")", (JPanel) getGames().get(getGames().size() - 1));
+
+		// Adjust Visibility
+		checkGames();
+
+	}
+
+	public void killGame(Game aGame) {
+
+		// Remove Game from ArrayList
+		getGames().remove(aGame);
 
 		// Adjust Visibility
 		checkGames();
@@ -113,7 +127,7 @@ public class GameFactory extends JTabbedPane {
 		return cc;
 	}
 
-	private ArrayList<Game> getGames() {
+	public ArrayList<Game> getGames() {
 		return games;
 	}
 

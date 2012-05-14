@@ -3,7 +3,7 @@
  * Game Factory, creates and maintains Game Instances!
  *
  * @author Casey DeLorme
- * @version 05-12-2012
+ * @version 05-13-2012
  *
  */
 
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-public class GameFactory {
+public class GameFactory implements GameMediator {
 
 
 	/* Static */
@@ -62,7 +62,7 @@ public class GameFactory {
 			}
 
 			// Create new Game Instance passing the GameID and users as a new array
-			getGames().add(new Memory(gameID, new User[]{aChallenger, aRecipient}));
+			getGames().add(new Memory(this, gameID, new User[]{aChallenger, aRecipient}));
 
 		} else {
 
@@ -86,6 +86,27 @@ public class GameFactory {
 		}
 
 		return ret;
+
+	}
+
+	public void killGame(Game aGame) {
+
+		// Remove matching game instance
+		getGames().remove(aGame);
+
+/*
+		// Identify game by ID and remove from ArrayList
+		for (Game u : getGames()) {
+
+			if (u.equals(aGame)) {
+
+				// Delete u from ArrayList
+				getGames().remove(u);
+
+			}
+
+		}
+*/
 
 	}
 

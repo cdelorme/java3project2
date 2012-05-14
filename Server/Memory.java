@@ -4,7 +4,7 @@
  *
  * @author Rohan Ganpayte
  * @maintainer Casey DeLorme
- * @version 05-12-2012
+ * @version 05-13-2012
  *
  */
 
@@ -33,19 +33,27 @@ public class Memory implements Game {
 
 	private int gameID;
 	private int turn;
+	private int score;
 	private User[] players;
 	private ArrayList<MemoryTile> tiles;
+	private MemoryTile lastSelected;
+	private GameMediator gm;
 
 
 	/* Constructors */
 
-	public Memory(int aGameID, User[] users) {
+	public Memory(GameMediator aGM, int aGameID, User[] users) {
 
-		// Set turn to 0
+		// Set defaults
+		score = 0;
 		turn = 0;
+		lastSelected = null;
 
 		// Prepare Tile Array List
 		setTiles(new ArrayList<MemoryTile>());
+
+		// Set GM
+		setGM(aGM);
 
 		// Set Game Instance ID
 		setGameID(aGameID);
@@ -66,10 +74,9 @@ public class Memory implements Game {
 		// Create Temporary Storage Array
 		ArrayList<MemoryTile> tmpTiles = new ArrayList<MemoryTile>();
 
-		// Create 64 MemoryTile instances
-		//for (int y=0; y < 8; y++) {
-		for (int y=0; y < 6; y++) {
-			for (int x=0; x < 8; x++) {
+		// Create 3 by 6 instances of tiles
+		for (int x=0; x < 3; x++) {
+			for (int y=0; y < 6; y++) {
 
 				// Add New Instance to Array
 				tmpTiles.add(new MemoryTile(x, y));
@@ -83,12 +90,10 @@ public class Memory implements Game {
 		// While tmpTiles contains elements
 		while (tmpTiles.size() > 0) {
 
+			// Select Random Image
 			int anImage = myRandom.nextInt(images.length);
-			// Randomly Select Image
-			//int anImage = (int) Math.floor(Math.random() * images.length);
 
 			// Now pick one from tmpImages
-			//int rndTile = (int) Math.floor(Math.random() * tmpTiles.size());
 			int rndTile = myRandom.nextInt(tmpTiles.size());
 
 			// Assign the image to the tile
@@ -98,7 +103,6 @@ public class Memory implements Game {
 			getTiles().add(tmpTiles.remove(rndTile));
 
 			// Rinse & repeat the same operation
-			//rndTile = (int) Math.floor(Math.random() * tmpTiles.size());
 			rndTile = myRandom.nextInt(tmpTiles.size());
 			tmpTiles.get(rndTile).setImage(images[anImage]);
 			getTiles().add(tmpTiles.remove(rndTile));
@@ -129,6 +133,110 @@ public class Memory implements Game {
 
 	}
 
+	public void showTile(User aUser, int theX, int theY) {
+
+		// Check that it is aUser's turn
+		if (players[turn].equals(aUser)) {
+
+			String tileName = "";
+			MemoryTile tmp = null;
+
+			// Find Matching Tile to Display
+			for (MemoryTile mt : getTiles()) {
+
+				// If Match Found
+				if (mt.getX() == theX && mt.getY() == theY) {
+
+					// Apply image name
+					tileName = mt.getImage();
+
+					// Grab Tile
+					tmp = mt;
+
+				}
+
+			}
+
+			if (!tileName.equals("")) {
+
+				// Create aCommand & Set Tile Image Name at selected Coordinates
+				Hashtable<String, String> aCommand = new Hashtable<String, String>();
+				aCommand.put("SYSTEM", "GAME");
+				aCommand.put("COMMAND", "SHOW");
+				aCommand.put("GAMEID", Integer.toString(getGameID()));
+				aCommand.put("X", Integer.toString(theX));
+				aCommand.put("Y", Integer.toString(theY));
+				aCommand.put("TILENAME", tileName);
+
+				// Return to user
+				aUser.sendCommand(aCommand);
+
+				// if lastSelected is null
+				if (lastSelected == null) {
+
+					// Set to Selected
+					lastSelected = tmp;
+
+				} else {
+
+					// Compare Images
+					if (lastSelected.getImage().equals(tileName)) {
+
+						// Create Update Score Command
+						Hashtable<String, String> aCommand2 = new Hashtable<String, String>();
+						aCommand2.put("SYSTEM", "GAME");
+						aCommand2.put("COMMAND", "UPDATE");
+						aCommand2.put("GAMEID", Integer.toString(getGameID()));
+						aCommand2.put("PLAYER", aUser.getUserName());
+						aCommand2.put("X1", Integer.toString(theX));
+						aCommand2.put("Y1", Integer.toString(theY));
+						aCommand2.put("X2", Integer.toString(lastSelected.getX()));
+						aCommand2.put("Y2", Integer.toString(lastSelected.getY()));
+
+						// Send Command to both users
+						for (User u : players) {
+
+							u.sendCommand(aCommand2);
+
+						}
+
+						// Update Score
+						score = score + 2;
+
+						// Check Score for Game-End
+						if (score == getTiles().size()) {
+
+							// Kill Game Method
+							killGame();
+
+						}
+
+					}
+
+					// Null lastSelected
+					lastSelected = null;
+
+					// Swap Turns
+					turn ^= 1;
+
+				}
+
+			}
+
+		}
+
+	}
+
+	private void killGame() {
+
+		// Call to factory via mediator to end self via gameID
+		getGM().killGame(this);
+
+		// Unset users to new array of size 0
+		players = new User[0];
+
+	}
+
 
 	/* Mutators */
 
@@ -140,6 +248,10 @@ public class Memory implements Game {
 		gameID = anID;
 	}
 
+	private void setGM(GameMediator aGM) {
+		gm = aGM;
+	}
+
 
 	/* Accessors */
 
@@ -149,6 +261,10 @@ public class Memory implements Game {
 
 	public int getGameID() {
 		return gameID;
+	}
+
+	private GameMediator getGM() {
+		return gm;
 	}
 
 

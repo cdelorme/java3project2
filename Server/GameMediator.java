@@ -1,8 +1,9 @@
 /**
- * Server Game Interface Definition
+ *
+ * Interface to mediate transactions between game and game factory
  *
  * @author Casey DeLorme
- * @version 05-12-2012
+ * @version 05-13-2012
  *
  */
 
@@ -10,7 +11,7 @@
 // Imports
 
 
-public interface Game {
+public interface GameMediator {
 
 
 	/* Static */
@@ -24,9 +25,7 @@ public interface Game {
 
 	/* Custom Methods */
 
-	public int getGameID();
-
-	public void showTile(User aUser, int theX, int theY);
+	public void killGame(Game aGame);
 
 
 	/* Mutators */
