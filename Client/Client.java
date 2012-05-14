@@ -36,7 +36,6 @@ public class Client implements ClientMediator {
 	private SystemGUI sg;
 	private Commander cs;
 
-
 	/* Constructors */
 
 	public Client() {
@@ -122,7 +121,7 @@ public class Client implements ClientMediator {
 		setCC(null);
 		setSG(null);
 
-		// Call init()
+		// Reset to Initialization
 		init();
 
 	}
