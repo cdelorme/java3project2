@@ -105,7 +105,7 @@ public class GameSystem implements Interpreter {
 			// and kill the game server side too
 
 			// Prepare a Hashtable for Command Sending
-			Hashtable<String, String> aCommand2 = new Hashtable<String, String>();
+			Hashtable<String, String> aCommand2 = null;
 
 			// Cycle all Games and match user instances
 			for (int x = (getGF().getGames().size() - 1); x >= 0 ; x--) {
@@ -114,6 +114,7 @@ public class GameSystem implements Interpreter {
 				if (Arrays.asList(getGF().getGames().get(x).getPlayers()).contains(aUser)) {
 
 					// Send whoever is not the user a KILL command
+					aCommand2 = new Hashtable<String, String>();
 					aCommand2.put("SYSTEM", "GAME");
 					aCommand2.put("COMMAND", "KILL");
 					aCommand2.put("GAMEID", Integer.toString(getGF().getGames().get(x).getGameID()));
@@ -130,10 +131,10 @@ public class GameSystem implements Interpreter {
 
 					}
 
-				}
+					// Kill Instance Server-Side
+					getGF().killGame(getGF().getGames().get(x));
 
-				// Kill Instance Server-Side
-				getGF().killGame(getGF().getGames().get(x));
+				}
 
 			}
 
