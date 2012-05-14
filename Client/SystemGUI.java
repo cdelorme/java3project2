@@ -140,6 +140,9 @@ public class SystemGUI extends JFrame implements SystemMediator {
 		// Resize - May not be needed here anymore
 		resizeMe();
 
+		// Set Chat Focus
+		getCG().setChatFocus();
+
 	}
 
 	public void resizeMe() {

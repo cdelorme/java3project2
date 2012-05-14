@@ -39,7 +39,25 @@ public class GameSystem implements Interpreter {
 
 	public void interpret(Hashtable aCommand) {
 
-		// Do!
+		// Check aCommand to determine action
+		String command = (String) aCommand.get("COMMAND");
+
+		if (command.equals("NEWGAME")) {
+
+			// Get Game ID
+			int aGameID = Integer.parseInt((String) aCommand.get("GAMEID"));
+
+			// Get Opponent Name
+			String anOpponent = (String) aCommand.get("OPPONENT");
+
+			// Create new Game Instance
+			getGF().newGame(aGameID, anOpponent);
+
+		} else if (command.equals("SOMETHING")) {
+
+			// More DO?
+
+		}
 
 	}
 

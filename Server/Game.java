@@ -24,6 +24,8 @@ public interface Game {
 
 	/* Custom Methods */
 
+	public int getGameID();
+
 
 	/* Mutators */
 

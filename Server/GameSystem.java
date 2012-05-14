@@ -43,9 +43,59 @@ public class GameSystem implements Interpreter {
 
 	public void interpret(Hashtable aCommand, User aUser) {
 
-		// Interpret!
+		// Obtain Command
+		String command = (String) aCommand.get("COMMAND");
+
+		// Check/Identify Command
+		if (command.equals("NEWGAME")) {
+
+			// Grab User Names
+			String challengerName = (String) aCommand.get("CHALLENGER");
+			String recipientName = (String) aCommand.get("RECIPIENT");
+
+			// Identify & Set Users
+			User aChallenger = null;
+			User aRecipient = null;
+			for (User u : getUM().getUsers()) {
+
+				if (u.getUserName().equals(challengerName)) aChallenger = u;
+				if (u.getUserName().equals(recipientName)) aRecipient = u;
+
+			}
+
+			// If both a Challenger & Recipient were found
+			if (aChallenger != null && aRecipient != null) {
+
+				// Send addGame command to GameFactory
+				getGF().addGame(aChallenger, aRecipient);
+
+			}
+
+		} else if (command.equals("SOMETHING")) {
+
+
+		}
 
 	}
+
+
+	public User getUserByName(String aUserName) {
+
+		User aUser = null;
+
+		// Cycle Users
+		for (User u : getUM().getUsers()) {
+
+			// Set Match if Found
+			if (u.getUserName().equals(aUserName)) aUser = u;
+
+		}
+
+		return aUser;
+
+	}
+
+
 
 
 	/* Mutators */

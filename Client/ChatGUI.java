@@ -3,7 +3,7 @@
  * Chat GUI Display System
  *
  * @author Casey DeLorme
- * @version 05-11-2012
+ * @version 05-12-2012
  *
  */
 
@@ -179,6 +179,9 @@ public class ChatGUI extends JPanel {
 			// Send the Command to the Server
 			getCC().sendCommand(aCommand);
 
+			// Clear Text Box
+			chatMessage.setText("");
+
 		}
 
 	}
@@ -218,11 +221,39 @@ public class ChatGUI extends JPanel {
 		// Validate Replay Choice
 		if (choice == JOptionPane.YES_OPTION) {
 
-			// Create a Command to Accept Challenge
-			// Server will create game instance & pass the GameID to both players
+			// Create Hashtable Command to initiate a game
+			Hashtable<String, String> aCommand = new Hashtable<String, String>();
+			aCommand.put("SYSTEM", "GAME");
+			aCommand.put("COMMAND", "NEWGAME");
+			aCommand.put("CHALLENGER", aChallenger);
+			aCommand.put("RECIPIENT", getCC().getUserName());
+
+			// Send Command
+			getCC().sendCommand(aCommand);
+
+		} else {
+
+
+			// This system has not yet been integrated, it is an extra if I have time
+			// It is not a requirement, but the code is here to make implementation easier later.
+
+
+			// Create Hashtable Command
+			Hashtable<String, String> aCommand = new Hashtable<String, String>();
+			aCommand.put("SYSTEM", "MESSAGE");
+			aCommand.put("COMMAND", "DECLINE");
+			aCommand.put("CHALLENGER", aChallenger);
+			aCommand.put("RECIPIENT", getCC().getUserName());
+
+			// Send to Server
+			getCC().sendCommand(aCommand);
 
 		}
 
+	}
+
+	public void setChatFocus() {
+		chatMessage.requestFocusInWindow();
 	}
 
 

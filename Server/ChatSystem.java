@@ -3,7 +3,7 @@
  * Chat Server CLI System
  *
  * @author Casey DeLorme
- * @version 04-16-2012
+ * @version 05-12-2012
  *
  */
 
@@ -69,9 +69,10 @@ public class ChatSystem implements Interpreter {
 
 			// Get Challenger Username
 			String aChallenger = (String) aCommand.get("CHALLENGER");
+			String aRecipient = (String) aCommand.get("RECIPIENT");
 
 			// Issue challenge to another user on the network
-			sendChallenge(aChallenger);
+			sendChallenge(aChallenger, aRecipient);
 
 		}
 
@@ -187,12 +188,26 @@ public class ChatSystem implements Interpreter {
 
 	}
 
-	private void sendChallenge(String aUserName) {
+	private void sendChallenge(String aChallenger, String aRecipient) {
 
-		// Testing
-		System.out.println("Challenge Issued by: " + aUserName);
+		// Create Hashtable Command for Challenge
+		Hashtable<String, String> aCommand = new Hashtable<String, String>();
+		aCommand.put("SYSTEM", "CHAT");
+		aCommand.put("COMMAND", "CHALLENGE");
+		aCommand.put("CHALLENGER", aChallenger);
 
-		// Dunno yet...
+		// Identify Recipient
+		for (User u : getUM().getUsers()) {
+
+			// If Match Found
+			if (u.getUserName().equals(aRecipient)) {
+
+				// Issue Challenge
+				u.sendCommand(aCommand);
+
+			}
+
+		}
 
 	}
 

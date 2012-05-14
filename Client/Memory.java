@@ -57,9 +57,6 @@ public class Memory extends JPanel implements Game {
 		// Prep Minimum Dimensions for Buttons
 		Dimension buttonSize = new Dimension(55, 80);
 
-		// Test ImageIcon Creation
-		//ImageIcon anIcon = new ImageIcon("images/1up.gif");
-
 		// Create Tiles
 		for (int y=0; y < tiles.length; y++) {
 			for (int x=0; x < tiles[y].length; x++) {
@@ -67,23 +64,13 @@ public class Memory extends JPanel implements Game {
 				// Create Instance
 				tiles[y][x] = new JButton();
 
-				// Create Labeled Instance (For Testing)
-				//tiles[x][y] = new JButton("x: " + x + ", y: " + y);
-
-				// Set Icon (Testing)
-				//tiles[x][y].setIcon(anIcon);
-
 				// Set Alignment
 				tiles[y][x].setVerticalTextPosition(AbstractButton.CENTER);
 				tiles[y][x].setHorizontalTextPosition(AbstractButton.CENTER);
 
-
 				// Set Display Options & Size
 				tiles[y][x].setOpaque(true);
 				tiles[y][x].setPreferredSize(buttonSize);
-
-				// Set Event Handler
-				//tiles[x][y].addActionListener(this);
 
 				// Add to Display
 				add(tiles[y][x]);

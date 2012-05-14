@@ -47,25 +47,6 @@ public class GameFactory extends JTabbedPane {
 
 	private void init() {
 
-		// Set a preferred size
-		//setPreferredSize(new Dimension(480, 680));
-/*
-		// Test Creation of a new Game
-		getGames().add(new Memory(1));
-
-		// Append that game to a new tab!
-		addTab("User (1)", (JPanel) getGames().get(0));
-/* Test Successful */
-
-		// Can Set Visibility depending on number of games
-		// In this case, the number of tabs, a function can be added and called here
-		// as well as whenever a game is "completed" hence ended to update display!
-
-		// For testing purposes I want to load One copy of Memory to check display
-
-		// Test - Worked
-		//setVisible(false);
-
 		// Adjust Visibility
 		checkGames();
 
@@ -88,6 +69,25 @@ public class GameFactory extends JTabbedPane {
 
 		// Resize SystemGUI
 		getSM().resizeMe();
+
+	}
+
+	public void newGame(int aGameID, String anOpponent) {
+
+		/*
+		 * Given enough time future revisions would allow
+		 * the user to specify the "type" of game and various
+		 * other options, which would become parameters.
+		 */
+
+		// Create new Memory Instance
+		getGames().add(new Memory(aGameID));
+
+		// Create new Tab with appropriate labels
+		addTab(anOpponent + " (" + aGameID + ")", (JPanel) getGames().get(getGames().size() - 1));
+
+		// Adjust Visibility
+		checkGames();
 
 	}
 

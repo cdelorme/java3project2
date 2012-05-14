@@ -11,6 +11,8 @@
 
 // Imports
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.Hashtable;
 
 
 public class Memory implements Game {
@@ -30,18 +32,26 @@ public class Memory implements Game {
 	/* Properties */
 
 	private int gameID;
+	private int turn;
+	private User[] players;
 	private ArrayList<MemoryTile> tiles;
 
 
 	/* Constructors */
 
-	public Memory(int aGameID) {
+	public Memory(int aGameID, User[] users) {
+
+		// Set turn to 0
+		turn = 0;
 
 		// Prepare Tile Array List
 		setTiles(new ArrayList<MemoryTile>());
 
 		// Set Game Instance ID
 		setGameID(aGameID);
+
+		// Assign Players
+		players = users;
 
 		// Initialize the Game Instance
 		init();
@@ -57,7 +67,8 @@ public class Memory implements Game {
 		ArrayList<MemoryTile> tmpTiles = new ArrayList<MemoryTile>();
 
 		// Create 64 MemoryTile instances
-		for (int y=0; y < 8; y++) {
+		//for (int y=0; y < 8; y++) {
+		for (int y=0; y < 6; y++) {
 			for (int x=0; x < 8; x++) {
 
 				// Add New Instance to Array
@@ -66,14 +77,19 @@ public class Memory implements Game {
 			}
 		}
 
+		// Create a random object
+		Random myRandom = new Random();
+
 		// While tmpTiles contains elements
 		while (tmpTiles.size() > 0) {
 
+			int anImage = myRandom.nextInt(images.length);
 			// Randomly Select Image
-			int anImage = (int) Math.floor(Math.random() * images.length);
+			//int anImage = (int) Math.floor(Math.random() * images.length);
 
 			// Now pick one from tmpImages
-			int rndTile = (int) Math.floor(Math.random() * tmpTiles.size());
+			//int rndTile = (int) Math.floor(Math.random() * tmpTiles.size());
+			int rndTile = myRandom.nextInt(tmpTiles.size());
 
 			// Assign the image to the tile
 			tmpTiles.get(rndTile).setImage(images[anImage]);
@@ -82,9 +98,32 @@ public class Memory implements Game {
 			getTiles().add(tmpTiles.remove(rndTile));
 
 			// Rinse & repeat the same operation
-			rndTile = (int) Math.floor(Math.random() * tmpTiles.size());
+			//rndTile = (int) Math.floor(Math.random() * tmpTiles.size());
+			rndTile = myRandom.nextInt(tmpTiles.size());
 			tmpTiles.get(rndTile).setImage(images[anImage]);
 			getTiles().add(tmpTiles.remove(rndTile));
+
+		}
+
+		// Method to send game info to both users
+		startGame();
+
+	}
+
+	private void startGame() {
+
+		// Create new Command to start the game instance
+		Hashtable<String, String> aCommand = new Hashtable<String, String>();
+		aCommand.put("SYSTEM", "GAME");
+		aCommand.put("COMMAND", "NEWGAME");
+		aCommand.put("GAMEID", Integer.toString(getGameID()));
+
+		// Loop both players & use xor to send each the appropriate create game message
+		for (int x = 0; x < players.length; x++) {
+
+			// Set Opponent Username via xor
+			aCommand.put("OPPONENT", players[(x^1)].getUserName());
+			players[x].sendCommand(aCommand);
 
 		}
 
