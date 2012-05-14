@@ -3,7 +3,7 @@
  * Game Client Interface, unifies Game Systems
  *
  * @author Casey DeLorme
- * @version 05-05-2012
+ * @version 05-13-2012
  *
  */
 
@@ -24,6 +24,14 @@ public interface Game {
 
 
 	/* Custom Methods */
+
+	public int getGameID();
+
+	public void showTile(String anImage, int theX, int theY);
+
+	public void removeTile(int theX, int theY);
+
+	public void updateScore(String playerName);
 
 
 	/* Mutators */

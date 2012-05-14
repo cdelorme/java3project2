@@ -3,7 +3,7 @@
  * Client Game Command Interpreter
  *
  * @author Casey DeLorme
- * @version 05-05-2012
+ * @version 05-13-2012
  *
  */
 
@@ -53,9 +53,59 @@ public class GameSystem implements Interpreter {
 			// Create new Game Instance
 			getGF().newGame(aGameID, anOpponent);
 
-		} else if (command.equals("SOMETHING")) {
+		} else if (command.equals("SHOW")) {
 
-			// More DO?
+			// Extract Game ID
+			int gameID = Integer.parseInt((String) aCommand.get("GAMEID"));
+
+			// Find Matching Game
+			for (Game g : getGF().getGames()) {
+
+				if (g.getGameID() == gameID) {
+
+					// Extract TileName & Coordinates
+					String anImage = (String) aCommand.get("TILENAME");
+					int theX = Integer.parseInt((String) aCommand.get("X"));
+					int theY = Integer.parseInt((String) aCommand.get("Y"));
+
+					// Call Game Method
+					g.showTile(anImage, theX, theY);
+
+				}
+
+			}
+
+		} else if (command.equals("UPDATE")) {
+
+			// Get GameID
+			int gameID = Integer.parseInt((String) aCommand.get("GAMEID"));
+
+			Game tmp = null;
+
+			// Find Matching Game
+			for (Game g : getGF().getGames()) {
+
+				// Grab Matching Instance
+				if (g.getGameID() == gameID) tmp = g;
+
+			}
+
+			// After the for loop to avoid ConcurrentModificationError
+			if (tmp != null) {
+
+				// Remove Tiles
+				int theX = Integer.parseInt((String) aCommand.get("X1"));
+				int theY = Integer.parseInt((String) aCommand.get("Y1"));
+				tmp.removeTile(theX, theY);
+				theX = Integer.parseInt((String) aCommand.get("X2"));
+				theY = Integer.parseInt((String) aCommand.get("Y2"));
+				tmp.removeTile(theX, theY);
+
+				// Update Score
+				String aPlayer = (String) aCommand.get("PLAYER");
+				tmp.updateScore(aPlayer);
+
+			}
 
 		}
 

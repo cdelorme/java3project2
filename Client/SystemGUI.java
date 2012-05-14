@@ -140,6 +140,16 @@ public class SystemGUI extends JFrame implements SystemMediator {
 		// Resize - May not be needed here anymore
 		resizeMe();
 
+		// Size to Contained Items
+		pack();
+
+        // Set current size as Minimum Size
+        setMinimumSize(new Dimension(getWidth(), getHeight()));
+
+		// Reposition to Center Screen
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation((dim.width - (getWidth())) / 2, (dim.height - (getHeight())) / 2);
+
 		// Set Chat Focus
 		getCG().setChatFocus();
 
@@ -149,13 +159,6 @@ public class SystemGUI extends JFrame implements SystemMediator {
 
 		// Size to Contained Items
 		pack();
-
-		// Reposition to Center Screen
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        setLocation((dim.width - (getWidth())) / 2, (dim.height - (getHeight())) / 2);
-
-        // Set current size as Minimum Size
-        setMinimumSize(new Dimension(getWidth(), getHeight()));
 
         // Adjust Visibility
 		setVisible(true);
