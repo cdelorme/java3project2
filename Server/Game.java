@@ -28,6 +28,8 @@ public interface Game {
 
 	public void showTile(User aUser, int theX, int theY);
 
+	public User[] getPlayers();
+
 
 	/* Mutators */
 

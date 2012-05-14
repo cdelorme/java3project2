@@ -4,7 +4,7 @@
  *
  * @author Rohan Ganpayte
  * @maintainer Casey DeLorme
- * @version 05-13-2012
+ * @version 05-14-2012
  *
  */
 
@@ -33,7 +33,6 @@ public class Memory implements Game {
 
 	private int gameID;
 	private int turn;
-	private int score;
 	private User[] players;
 	private ArrayList<MemoryTile> tiles;
 	private MemoryTile lastSelected;
@@ -45,7 +44,6 @@ public class Memory implements Game {
 	public Memory(GameMediator aGM, int aGameID, User[] users) {
 
 		// Set defaults
-		score = 0;
 		turn = 0;
 		lastSelected = null;
 
@@ -200,11 +198,12 @@ public class Memory implements Game {
 
 						}
 
-						// Update Score
-						score = score + 2;
+						// Remove lastSelected & tmp
+						getTiles().remove(tmp);
+						getTiles().remove(lastSelected);
 
-						// Check Score for Game-End
-						if (score == getTiles().size()) {
+						// Check if any tiles remain
+						if (getTiles().size() == 0) {
 
 							// Kill Game Method
 							killGame();
@@ -265,6 +264,10 @@ public class Memory implements Game {
 
 	private GameMediator getGM() {
 		return gm;
+	}
+
+	public User[] getPlayers() {
+		return players;
 	}
 
 

@@ -4,7 +4,7 @@
  *
  * @author Rohan Ganpayte
  * @maintainer Casey DeLorme
- * @version 05-13-2012
+ * @version 05-14-2012
  *
  */
 
@@ -30,6 +30,7 @@ public class Memory extends JPanel implements Game {
 	private JLabel[] players;
 	private JLabel[] scores;
 	private int gameID;
+	private int counter;
 
 
 	/* Constructors */
@@ -48,6 +49,7 @@ public class Memory extends JPanel implements Game {
 		players[1].setText(anOpponent);
 		scores[0].setText("0");
 		scores[1].setText("0");
+		counter = 0;
 
 		// Set ClientConnection
 		setCC(aCC);
@@ -104,8 +106,7 @@ public class Memory extends JPanel implements Game {
 							for (int i = 0; i < tiles[j].length; i++) {
 
 								// If Match
-								//if (ae.getSource().equals(tiles[j][i]) && tiles[j][i].getIcon() == null) {
-								if (ae.getSource().equals(tiles[j][i])) {
+								if (ae.getSource().equals(tiles[j][i]) && tiles[j][i].getIcon() == null && counter < 2) {
 
 									// Create Command to send coordinates
 									Hashtable<String, String> aCommand = new Hashtable<String, String>();
@@ -170,6 +171,36 @@ public class Memory extends JPanel implements Game {
 
 		// Set ImageIcon to specified coordinates
 		tiles[theX][theY].setIcon(anIcon);
+
+		// Increment Counter
+		counter++;
+
+		if (counter == 2) {
+
+			// On second tile run this
+			new Thread(new Runnable() {
+				public void run() {
+
+					try {
+						Thread.sleep(3000);
+					} catch (InterruptedException ie) {}
+
+					// Remove all imageicons
+					for (int j = 0; j < tiles.length; j++) {
+						for (int i = 0; i < tiles[j].length; i++) {
+
+							tiles[j][i].setIcon(null);
+
+						}
+					}
+
+					// reset counter
+					counter = 0;
+
+				}
+			}).start();
+
+		}
 
 	}
 

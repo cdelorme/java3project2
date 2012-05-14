@@ -3,7 +3,7 @@
  * Tabbed display system for Games, also management for their creation
  *
  * @author Casey Delorme
- * @version 05-13-2012
+ * @version 05-14-2012
  *
  */
 
@@ -96,6 +96,9 @@ public class GameFactory extends JTabbedPane implements GameMediator {
 	}
 
 	public void killGame(Game aGame) {
+
+		// Remove Game from Display
+		remove((JPanel) aGame);
 
 		// Remove Game from ArrayList
 		getGames().remove(aGame);

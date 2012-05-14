@@ -3,13 +3,14 @@
  * Game System Interprets Game Commands!
  *
  * @author Casey DeLorme
- * @version 05-13-2012
+ * @version 05-14-2012
  *
  */
 
 
 // Imports
 import java.util.Hashtable;
+import java.util.Arrays;
 
 
 public class GameSystem implements Interpreter {
@@ -94,6 +95,45 @@ public class GameSystem implements Interpreter {
 
 				// Send ShowTile Command
 				tmp.showTile(aUser, theX, theY);
+
+			}
+
+		} else if (command.equals("DISCONNECT")) {
+
+			// User has Disconnected, need to inform all
+			// of their game instances opponents
+			// and kill the game server side too
+
+			// Prepare a Hashtable for Command Sending
+			Hashtable<String, String> aCommand2 = new Hashtable<String, String>();
+
+			// Cycle all Games and match user instances
+			for (int x = (getGF().getGames().size() - 1); x >= 0 ; x--) {
+
+				// If user is in this game, create command for opponent user
+				if (Arrays.asList(getGF().getGames().get(x).getPlayers()).contains(aUser)) {
+
+					// Send whoever is not the user a KILL command
+					aCommand2.put("SYSTEM", "GAME");
+					aCommand2.put("COMMAND", "KILL");
+					aCommand2.put("GAMEID", Integer.toString(getGF().getGames().get(x).getGameID()));
+
+					// Cycle Players
+					for (User u : getGF().getGames().get(x).getPlayers()) {
+
+						// If not quitter
+						if (!u.equals(aUser)) {
+
+							// Send Kill to opponent
+							u.sendCommand(aCommand2);
+						}
+
+					}
+
+				}
+
+				// Kill Instance Server-Side
+				getGF().killGame(getGF().getGames().get(x));
 
 			}
 

@@ -3,7 +3,7 @@
  * Game Factory, creates and maintains Game Instances!
  *
  * @author Casey DeLorme
- * @version 05-13-2012
+ * @version 05-14-2012
  *
  */
 
@@ -93,20 +93,6 @@ public class GameFactory implements GameMediator {
 
 		// Remove matching game instance
 		getGames().remove(aGame);
-
-/*
-		// Identify game by ID and remove from ArrayList
-		for (Game u : getGames()) {
-
-			if (u.equals(aGame)) {
-
-				// Delete u from ArrayList
-				getGames().remove(u);
-
-			}
-
-		}
-*/
 
 	}
 

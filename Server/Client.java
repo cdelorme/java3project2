@@ -3,7 +3,7 @@
  * Server Client object, aka User
  *
  * @author Casey DeLorme
- * @version 05-11-2012
+ * @version 05-14-2012
  *
  */
 
@@ -92,8 +92,14 @@ public class Client implements User, Runnable {
 
 		}
 
-		// Use commander to tell USER system to REMOVE self
+		// Create a command to ask all games with this user to end
 		Hashtable<String, String> tmp = new Hashtable<String, String>();
+		tmp.put("SYSTEM", "GAME");
+		tmp.put("COMMAND", "DISCONNECT");
+		getCommander().interpret(tmp, this);
+
+		// Use commander to tell USER system to REMOVE self
+		tmp = new Hashtable<String, String>();
 		tmp.put("SYSTEM", "CHAT");
 		tmp.put("COMMAND", "REMOVE");
 		getCommander().interpret(tmp, this);

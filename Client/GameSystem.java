@@ -3,7 +3,7 @@
  * Client Game Command Interpreter
  *
  * @author Casey DeLorme
- * @version 05-13-2012
+ * @version 05-14-2012
  *
  */
 
@@ -104,6 +104,25 @@ public class GameSystem implements Interpreter {
 				// Update Score
 				String aPlayer = (String) aCommand.get("PLAYER");
 				tmp.updateScore(aPlayer);
+
+			}
+
+		} else if (command.equals("KILL")) {
+
+			// Request to end game prematurely
+			// Either user disconnected OR a menu selection (if implemented)
+			int gameID = Integer.parseInt((String) aCommand.get("GAMEID"));
+
+			// Check for matching game
+			// To do this, a reverse loop is required
+			for (int x = (getGF().getGames().size() - 1); x >= 0 ; x--) {
+
+				if (getGF().getGames().get(x).getGameID() == gameID) {
+
+					// Kill Command
+					getGF().killGame(getGF().getGames().get(x));
+
+				}
 
 			}
 
