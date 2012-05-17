@@ -62,15 +62,20 @@ public class SystemGUI extends JFrame implements SystemMediator {
 		// Menu Creation
 		JMenuBar menu = new JMenuBar();
 		JMenu file = new JMenu("File");
+		JMenu instructions = new JMenu("Instructions");
 		JMenu help = new JMenu("Help");
-		JMenuItem about = new JMenuItem("About");
 		JMenuItem disco = new JMenuItem("Disconnect");
 		JMenuItem exit = new JMenuItem("Exit");
+		JMenuItem chat = new JMenuItem("Chat Instructions");
+		JMenuItem game = new JMenuItem("Game Instructions");
+		JMenuItem about = new JMenuItem("About");
 
 		// Menu Assembly
 		file.add(disco);
 		file.add(exit);
 		help.add(about);
+		instructions.add(chat);
+		instructions.add(game);
 		menu.add(file);
 		menu.add(help);
 
@@ -78,6 +83,9 @@ public class SystemGUI extends JFrame implements SystemMediator {
 		file.setMnemonic('F');
 		disco.setMnemonic('D');
 		exit.setMnemonic('X');
+		instructions.setMnemonic('I');
+		chat.setMnemonic('C');
+		game.setMnemonic('G');
 		help.setMnemonic('H');
 		about.setMnemonic('A');
 
@@ -111,12 +119,32 @@ public class SystemGUI extends JFrame implements SystemMediator {
 				}
 			}
 		);
+		chat.addActionListener(
+			new ActionListener() {
+				public void actionPerformed(ActionEvent ae) {
+
+					// Instructional Message for Chat System
+					JOptionPane.showMessageDialog(null, "Type a message into the text area below the ChatBox.  You may send a message by clicking the button next to the chat, or by hitting the enter key.\nTo send a private message using the format \"@username\" at the start of the message.  If that user is not connected, no message will be sent.", "Chat Instructions", JOptionPane.INFORMATION_MESSAGE);
+
+				}
+			}
+		);
+		game.addActionListener(
+			new ActionListener() {
+				public void actionPerformed(ActionEvent ae) {
+
+					// Instructional Message for Game System
+					JOptionPane.showMessageDialog(null, "Memory is a tile matching game.  Each player takes turn flipping two tiles.  If a match is found the tiles are removed and the player earns a point.  Whoever has the most points once all times are removed wins.", "Game Instructions", JOptionPane.INFORMATION_MESSAGE);
+
+				}
+			}
+		);
 		about.addActionListener(
 			new ActionListener() {
 				public void actionPerformed(ActionEvent ae) {
 
 					// Print JOptionPane with Details on Project
-					JOptionPane.showMessageDialog(null, "Java 219\nMulti Threaded Client Server Application\nGame:  Memory /w Match Making Server", "Project Information", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Description: Multi-Threaded Server with MatchMaking Memory Game System.\nWritten By:  Group 4 (219-03)", "Java 3 (219) - Project #2", JOptionPane.INFORMATION_MESSAGE);
 
 				}
 			}
