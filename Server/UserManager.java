@@ -3,7 +3,9 @@
  * Interface for User Factory
  *
  * @author Casey DeLorme
- * @version 05-05-2012
+ * @version 05-14-2012
+ * @course 219-03
+ * @group Group 4
  *
  */
 

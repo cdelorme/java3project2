@@ -5,6 +5,8 @@
  * @author Rohan Ganpayte
  * @maintainer Casey DeLorme
  * @version 05-14-2012
+ * @course 219-03
+ * @group Group 4
  *
  */
 
@@ -162,12 +164,42 @@ public class Memory extends JPanel implements Game {
 
 		}
 
+		// Prep check for end-game condition
+		int count = 0;
+		for (int y=0; y < tiles.length; y++) {
+			for (int x=0; x < tiles[y].length; x++) {
+
+				// Count if Enabled
+				if (tiles[y][x].isEnabled()) count++;
+
+			}
+		}
+
+		// Check count for game over
+		if (count == 0) {
+
+			// Determine winner via scores
+			String winner = "You Win";
+			int scoreOne = Integer.parseInt(scores[0].getText());
+			int scoreTwo = Integer.parseInt(scores[1].getText());
+			if (scoreTwo > scoreOne) {
+				winner = players[1].getText() + " Wins!";
+			}
+
+			// JOptionPane user
+			JOptionPane.showMessageDialog(null, winner, "Game Over", JOptionPane.INFORMATION_MESSAGE);
+
+			// Kill Game Instance
+			killGame();
+
+		}
+
 	}
 
 	public void showTile(String anImage, int theX, int theY) {
 
 		// Load Image Icon
-		ImageIcon anIcon = new ImageIcon("images/" + anImage);
+		ImageIcon anIcon = new ImageIcon(getClass().getResource("images/" + anImage));
 
 		// Set ImageIcon to specified coordinates
 		tiles[theX][theY].setIcon(anIcon);
@@ -209,35 +241,6 @@ public class Memory extends JPanel implements Game {
 		// Disable & Hide JButton at given coordinates
 		tiles[theX][theY].setEnabled(false);
 		tiles[theX][theY].setVisible(false);
-
-		int count = 0;
-		for (int y=0; y < tiles.length; y++) {
-			for (int x=0; x < tiles[y].length; x++) {
-
-				// Count if Enabled
-				if (tiles[y][x].isEnabled()) count++;
-
-			}
-		}
-
-		// Check count for game over
-		if (count == 0) {
-
-			// Determine winner via scores
-			String winner = "You Win";
-			int scoreOne = Integer.parseInt(scores[0].getText());
-			int scoreTwo = Integer.parseInt(scores[1].getText());
-			if (scoreTwo > scoreOne) {
-				winner = players[1].getText() + " Wins!";
-			}
-
-			// JOptionPane user
-			JOptionPane.showMessageDialog(null, winner, "Game Over", JOptionPane.INFORMATION_MESSAGE);
-
-			// Kill Game Instance
-			killGame();
-
-		}
 
 	}
 

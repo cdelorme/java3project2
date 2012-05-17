@@ -3,7 +3,9 @@
  * Client Loads Required Objects to Establish Connection
  *
  * @author Casey DeLorme
- * @version 05-11-2012
+ * @version 05-14-2012
+ * @course 219-03
+ * @group Group 4
  *
  */
 
@@ -35,6 +37,7 @@ public class Client implements ClientMediator {
 	private ClientConnection cc;
 	private SystemGUI sg;
 	private Commander cs;
+
 
 	/* Constructors */
 

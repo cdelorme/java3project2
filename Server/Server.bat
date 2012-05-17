@@ -4,7 +4,7 @@ del *.class
 @echo "Compiling..."
 javac Server.java
 @echo "Creating Jar File..."
-jar -cmvf ServerManifest.txt Server.jar *.class
+jar -cmvf ServerManifest.txt Server.jar *
 @echo "Completed, Executing Jar File"
 java -jar Server.jar
 pause

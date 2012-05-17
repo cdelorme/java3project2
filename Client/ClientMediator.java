@@ -3,7 +3,9 @@
  * Mediator for resetting the Client from various locations
  *
  * @author Casey DeLorme
- * @version 05-11-2012
+ * @version 05-14-2012
+ * @course 219-03
+ * @group Group 4
  *
  */
 

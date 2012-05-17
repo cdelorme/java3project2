@@ -3,7 +3,9 @@
  * Game Client Interface, unifies Game Systems
  *
  * @author Casey DeLorme
- * @version 05-13-2012
+ * @version 05-14-2012
+ * @course 219-03
+ * @group Group 4
  *
  */
 

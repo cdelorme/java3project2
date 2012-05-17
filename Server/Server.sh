@@ -5,9 +5,9 @@ rm *.class
 echo "Compiling..."
 javac Server.java
 echo "Creating Jar File..."
-jar -cmvf ServerManifest.txt Server.jar *.class
+jar -cmvf ServerManifest.txt Server.jar *
 DEBUGFILE=serverDebug.txt
 echo "Completed, Executing Jar File!"
-echo "Debug data will be written to " $DEBUGFILE
+echo "Debug output will be written to " $DEBUGFILE
 java -jar Server.jar > $DEBUGFILE &
 echo "To end server, Kill Process ID:" $!

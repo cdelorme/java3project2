@@ -4,6 +4,8 @@
  *
  * @author Casey Delorme
  * @version 05-14-2012
+ * @course 219-03
+ * @group Group 4
  *
  */
 

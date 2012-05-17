@@ -2,7 +2,9 @@
  * Server Game Interface Definition
  *
  * @author Casey DeLorme
- * @version 05-12-2012
+ * @version 05-14-2012
+ * @course 219-03
+ * @group Group 4
  *
  */
 

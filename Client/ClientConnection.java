@@ -3,7 +3,9 @@
  * Connection object could be used to separate the connection from the Client GUI
  *
  * @author Casey DeLorme
- * @version 05-11-2012
+ * @version 05-14-2012
+ * @course 219-03
+ * @group Group 4
  *
  */
 
