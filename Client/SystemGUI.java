@@ -77,6 +77,7 @@ public class SystemGUI extends JFrame implements SystemMediator {
 		instructions.add(chat);
 		instructions.add(game);
 		menu.add(file);
+		menu.add(instructions);
 		menu.add(help);
 
 		// Create Mnemonics
