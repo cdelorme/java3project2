@@ -55,6 +55,22 @@ public class GameSystem implements Interpreter {
 			// Create new Game Instance
 			getGF().newGame(aGameID, anOpponent);
 
+			// Get TURN
+			String aPlayer = (String) aCommand.get("TURN");
+
+			// Cycle Games
+			for (Game g : getGF().getGames()) {
+
+				// Identify Game ID
+				if (g.getGameID() == aGameID) {
+
+					// Call swapEnabled
+					g.swapEnabled(aPlayer);
+
+				}
+
+			}
+
 		} else if (command.equals("SHOW")) {
 
 			// Extract Game ID
@@ -95,6 +111,14 @@ public class GameSystem implements Interpreter {
 			// After the for loop to avoid ConcurrentModificationError
 			if (tmp != null) {
 
+				// Sleep the system for two seconds before
+				try {
+
+					// Two Second Threaded Timer before running this update
+					Thread.sleep(2000);
+
+				} catch (InterruptedException tie) {}
+
 				// Remove Tiles
 				int theX = Integer.parseInt((String) aCommand.get("X1"));
 				int theY = Integer.parseInt((String) aCommand.get("Y1"));
@@ -123,6 +147,35 @@ public class GameSystem implements Interpreter {
 
 					// Kill Command
 					getGF().killGame(getGF().getGames().get(x));
+
+				}
+
+			}
+
+		} else if (command.equals("POKE")) {
+
+			// Wait two seconds before change
+			try {
+
+				// Two Second Threaded Timer before running this update
+				Thread.sleep(2000);
+
+			} catch (InterruptedException tie) {}
+
+			// Check GameID
+			int gameID = Integer.parseInt((String) aCommand.get("GAMEID"));
+
+			// Look for Game
+			for (Game g : getGF().getGames()) {
+
+				// if GameID exists
+				if (g.getGameID() == gameID) {
+
+					// Get Player Name
+					String aPlayer = (String) aCommand.get("PLAYER");
+
+					// Send Update to GUI
+					g.swapEnabled(aPlayer);
 
 				}
 

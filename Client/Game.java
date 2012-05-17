@@ -35,6 +35,8 @@ public interface Game {
 
 	public void updateScore(String playerName);
 
+	public void swapEnabled(String aPlayer);
+
 
 	/* Mutators */
 

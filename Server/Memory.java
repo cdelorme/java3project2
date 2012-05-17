@@ -121,6 +121,7 @@ public class Memory implements Game {
 		aCommand.put("SYSTEM", "GAME");
 		aCommand.put("COMMAND", "NEWGAME");
 		aCommand.put("GAMEID", Integer.toString(getGameID()));
+		aCommand.put("TURN", players[0].getUserName());
 
 		// Loop both players & use xor to send each the appropriate create game message
 		for (int x = 0; x < players.length; x++) {
@@ -219,6 +220,21 @@ public class Memory implements Game {
 
 					// Swap Turns
 					turn ^= 1;
+
+					// Prepare Poke Command
+					Hashtable<String, String> poke = new Hashtable<String, String>();
+					poke.put("SYSTEM", "GAME");
+					poke.put("COMMAND", "POKE");
+					poke.put("GAMEID", Integer.toString(getGameID()));
+					poke.put("PLAYER", players[turn].getUserName());
+
+					// Cycle Players
+					for (User u : players) {
+
+						// Send Poke
+						u.sendCommand(poke);
+
+					}
 
 				}
 

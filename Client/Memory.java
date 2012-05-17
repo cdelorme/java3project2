@@ -169,8 +169,8 @@ public class Memory extends JPanel implements Game {
 		for (int y=0; y < tiles.length; y++) {
 			for (int x=0; x < tiles[y].length; x++) {
 
-				// Count if Enabled
-				if (tiles[y][x].isEnabled()) count++;
+				// Count if Visible
+				if (tiles[y][x].isVisible()) count++;
 
 			}
 		}
@@ -214,7 +214,7 @@ public class Memory extends JPanel implements Game {
 				public void run() {
 
 					try {
-						Thread.sleep(3000);
+						Thread.sleep(2000);
 					} catch (InterruptedException ie) {}
 
 					// Remove all imageicons
@@ -241,6 +241,26 @@ public class Memory extends JPanel implements Game {
 		// Disable & Hide JButton at given coordinates
 		tiles[theX][theY].setEnabled(false);
 		tiles[theX][theY].setVisible(false);
+
+	}
+
+	public void swapEnabled(String aPlayer) {
+
+		// Set Boolean Flag
+		boolean change = false;
+
+		// If Player Name Matches, set change to true
+		if (aPlayer.equals(getCC().getUserName())) change = true;
+
+		// Cycle All JButtons in Array
+		for (int y=0; y < tiles.length; y++) {
+			for (int x=0; x < tiles[y].length; x++) {
+
+				// Change Whether the JButton is enabled or disabled
+				tiles[y][x].setEnabled(change);
+
+			}
+		}
 
 	}
 
