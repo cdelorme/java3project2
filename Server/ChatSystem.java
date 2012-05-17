@@ -76,6 +76,18 @@ public class ChatSystem implements Interpreter {
 			// Issue challenge to another user on the network
 			sendChallenge(aChallenger, aRecipient);
 
+		} else if (command.equals("PRIVATE")) {
+
+			// Interpretation for Private Message, yay~
+
+
+			// Get Message
+			String aMessage = (String) aCommand.get("MESSAGE");
+
+			// Send Private Message to Specific User
+			sendPM(aUser.getUserName(), aMessage);
+
+
 		}
 
 	}
@@ -213,11 +225,34 @@ public class ChatSystem implements Interpreter {
 
 	}
 
-	private void sendPrivateMessage(String aMessage, String aUserName) {
+	private void sendPM(String aSender, String aMessage) {
 
-		// Probably not enough time to implement this...
+		// Cycle Users
+		for (User u : getUM().getUsers()) {
+
+			// Compare Username against front of aMessage
+			if (u.getUserName().equals(aMessage.substring(1, u.getUserName().length() + 1))) {
+
+				// Augment aMessage
+				aMessage = aSender + ":PM>" + aMessage.substring(u.getUserName().length() + 1);
+
+				// Create Private Message!
+				Hashtable<String, String> aCommand = new Hashtable<String, String>();
+				aCommand.put("SYSTEM", "CHAT");
+				aCommand.put("COMMAND", "MESSAGE");
+				aCommand.put("MESSAGE", aMessage);
+
+				// Send PM!
+				u.sendCommand(aCommand);
+
+			}
+
+		}
+
 
 	}
+
+
 
 
 	/* Mutators */

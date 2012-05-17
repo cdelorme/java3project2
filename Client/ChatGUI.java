@@ -175,7 +175,15 @@ public class ChatGUI extends JPanel {
 
 			// Set the Command Information
 			aCommand.put("SYSTEM", "CHAT");
-			aCommand.put("COMMAND", "MESSAGE");
+
+			// Integrate of Private Chat!
+			// Check if first character starts with an @ symbol
+			if (chatMessage.getText().substring(0, 1).equals("@")) {
+				aCommand.put("COMMAND", "PRIVATE");
+			} else {
+				aCommand.put("COMMAND", "MESSAGE");
+			}
+
 			aCommand.put("MESSAGE", chatMessage.getText());
 
 			// Send the Command to the Server
