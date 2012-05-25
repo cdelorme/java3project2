@@ -1,0 +1,55 @@
+
+This is my thinking document.  Anytime you are thinking of something and not yet adding it, throw your notes/thoughts here.
+
+I am using this file as a Git Maintenance Logger, such that I can monitor and use it to track my git changes, and submit commits as I go.
+
+
+Project is essentially completed to specifications, requirements are fulfilled minus accompanying documentation.
+
+Design Document and UML Diagrams must be completed for turn-in by Next Friday, but presentation today can be a brief (live) demonstration.
+
+
+
+
+
+
+Added/Edited Files (git add):
+
+
+
+Removed/Renamed Files (git rm):
+
+
+
+Commit Notes:
+
+
+
+*********************
+
+
+Due to time constraints the following features and code changes could not be added, but were planned changes for future revisions:
+
+UML Diagram Rebuild.
+
+Bugfix, aesthetic change allows double-clicking of tiles.
+
+The code is messier than I would have preferred due to the rush that occurred the final week when team members disappeared.  To save time I abbreviated variable and method names, I would have liked to expand them all to meet proper naming convention standards.
+
+I introduced an enormous flaw in the Client GUI layering the processing systems behind the GUI forcing the Command System to run deep into the GUI layers and creating various limitations and requiring Mediators to establish limited callback functionality.  This would have taken several hours to fix, but given the time I would have liked to swap it to a Modular GUI system, generating all components at the start, and passing the display objects to the systems that would update them, instead of the reverse.
+
+I could have reduced the number of passed dependencies by adding an interpret command inside the Client/Connection objects on both ends, allowing direct calls to be made through the Command system locally.
+
+I was hoping to add a menu item to end a game pre-maturely, however I was unable to implement this command request.
+
+Color code private messages?  I don't know how I would do this so probably not a feature I will implement.
+
+I was hoping to add a menu item that would allow users to select to end their games prematurely, but that never came to pass.
+
+I had intended to create a Message System such that a message would open a JOptionPane from Server to Client without being tied to any other system.  This would have helped for situations like declined challenges, and informing a user their opponent disconnected.
+
+I had also wanted to integrate animation so changes in the GUI display were not as abrupt, but gradual.  A simple threaded timer with a custom resize event would have been nice looking.
+
+I also would have rather added a UserID system instead of just usernames, but this would have added a whole different level of complexity so I decided against it.  However, it would have been much more versatile than username checks.
+
+Finally, I really wanted to create some form of thread pooling for the server, such that not every single connection got its own thread, but a fixed number of threads shared responsibility for checking each connection for activity.  Technically the sockets would not close, but one thread wouldn't be sitting waiting for an idle user, it could go check for other requests.  I didn't have enough time to investigate this, let alone implement it.
