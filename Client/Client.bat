@@ -6,7 +6,9 @@ javadoc -d javadocs/ *.java
 @echo "Compiling..."
 javac Client.java
 @echo "Creating Jar File..."
-jar -cmvf ClientManifest.txt Client.jar * images/* javadocs/*
+jar -cmvf ClientManifest.txt Client.jar *.class images/*
 @echo "Completed, Executing Jar File!"
 java -jar Client.jar
+@echo "Cleaning up class files"
+del *.class
 pause
