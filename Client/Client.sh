@@ -12,3 +12,4 @@ echo "Completed, Executing Jar File!"
 java -jar Client.jar &
 echo "Cleaning up Class Files"
 rm *.class
+# Comments
